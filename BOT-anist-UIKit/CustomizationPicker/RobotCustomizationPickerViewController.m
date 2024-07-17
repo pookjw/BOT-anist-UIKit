@@ -16,13 +16,13 @@ __attribute__((objc_direct_members))
 @implementation RobotCustomizationPickerViewController
 @synthesize viewModel = _viewModel;
 
-- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
-    if (self = [super initWithCollectionViewLayout:<#(nonnull UICollectionViewLayout *)#>]) {
-        
-    }
-    
-    return self;
-}
+//- (instancetype)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
+//    if (self = [super initWithCollectionViewLayout:<#(nonnull UICollectionViewLayout *)#>]) {
+//        
+//    }
+//    
+//    return self;
+//}
 
 - (void)dealloc {
     [super dealloc];

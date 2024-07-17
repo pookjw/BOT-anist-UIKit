@@ -19,7 +19,7 @@
 		4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m */; };
 		4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */; };
 		4FB35EF52C478C2C00BFF649 /* RobotPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EF42C478C2C00BFF649 /* RobotPreviewViewController.m */; };
-		4FC88CED2C48178300D4C69A /* Robot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FC88CEC2C48178300D4C69A /* Robot.mm */; };
+		4FC88CED2C48178300D4C69A /* RobotData.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FC88CEC2C48178300D4C69A /* RobotData.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,8 +46,8 @@
 		4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationSplitViewController.mm; sourceTree = "<group>"; };
 		4FB35EF32C478C2C00BFF649 /* RobotPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotPreviewViewController.h; sourceTree = "<group>"; };
 		4FB35EF42C478C2C00BFF649 /* RobotPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RobotPreviewViewController.m; sourceTree = "<group>"; };
-		4FC88CEB2C48178300D4C69A /* Robot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Robot.hpp; sourceTree = "<group>"; };
-		4FC88CEC2C48178300D4C69A /* Robot.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Robot.mm; sourceTree = "<group>"; };
+		4FC88CEB2C48178300D4C69A /* RobotData.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RobotData.hpp; sourceTree = "<group>"; };
+		4FC88CEC2C48178300D4C69A /* RobotData.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotData.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,8 +118,8 @@
 				4F6801DE2C46D8EF00EF97A9 /* main.m */,
 				4F37EEF52C48175B00BEED2D /* File.swift */,
 				4F37EEF42C48175B00BEED2D /* BOT-anist-UIKit-Bridging-Header.h */,
-				4FC88CEB2C48178300D4C69A /* Robot.hpp */,
-				4FC88CEC2C48178300D4C69A /* Robot.mm */,
+				4FC88CEB2C48178300D4C69A /* RobotData.hpp */,
+				4FC88CEC2C48178300D4C69A /* RobotData.mm */,
 			);
 			path = "BOT-anist-UIKit";
 			sourceTree = "<group>";
@@ -200,7 +200,7 @@
 				4F0ECBAD2C4815110077673A /* RobotCustomizationPickerItemModel.mm in Sources */,
 				4F0ECBA72C4813790077673A /* RobotCustomizationPickerViewModel.mm in Sources */,
 				4F37EEF62C48175B00BEED2D /* File.swift in Sources */,
-				4FC88CED2C48178300D4C69A /* Robot.mm in Sources */,
+				4FC88CED2C48178300D4C69A /* RobotData.mm in Sources */,
 				4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */,
 				4F6801D12C46D8EE00EF97A9 /* SceneDelegate.mm in Sources */,
 				4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */,
