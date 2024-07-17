@@ -10,6 +10,7 @@
 		4F0ECBA72C4813790077673A /* RobotCustomizationPickerViewModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */; };
 		4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA92C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm */; };
 		4F0ECBAD2C4815110077673A /* RobotCustomizationPickerItemModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */; };
+		4F37EEF62C48175B00BEED2D /* File.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F37EEF52C48175B00BEED2D /* File.swift */; };
 		4F6801CE2C46D8EE00EF97A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6801CD2C46D8EE00EF97A9 /* AppDelegate.m */; };
 		4F6801D12C46D8EE00EF97A9 /* SceneDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F6801D02C46D8EE00EF97A9 /* SceneDelegate.mm */; };
 		4F6801D92C46D8EF00EF97A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F6801D82C46D8EF00EF97A9 /* Assets.xcassets */; };
@@ -18,6 +19,7 @@
 		4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m */; };
 		4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */; };
 		4FB35EF52C478C2C00BFF649 /* RobotPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EF42C478C2C00BFF649 /* RobotPreviewViewController.m */; };
+		4FC88CED2C48178300D4C69A /* Robot.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FC88CEC2C48178300D4C69A /* Robot.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -27,6 +29,8 @@
 		4F0ECBA92C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerSectionModel.mm; sourceTree = "<group>"; };
 		4F0ECBAB2C4815110077673A /* RobotCustomizationPickerItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerItemModel.h; sourceTree = "<group>"; };
 		4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerItemModel.mm; sourceTree = "<group>"; };
+		4F37EEF42C48175B00BEED2D /* BOT-anist-UIKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BOT-anist-UIKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		4F37EEF52C48175B00BEED2D /* File.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = File.swift; sourceTree = "<group>"; };
 		4F6801C92C46D8EE00EF97A9 /* BOT-anist-UIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOT-anist-UIKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F6801CC2C46D8EE00EF97A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		4F6801CD2C46D8EE00EF97A9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -42,6 +46,8 @@
 		4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationSplitViewController.mm; sourceTree = "<group>"; };
 		4FB35EF32C478C2C00BFF649 /* RobotPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotPreviewViewController.h; sourceTree = "<group>"; };
 		4FB35EF42C478C2C00BFF649 /* RobotPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RobotPreviewViewController.m; sourceTree = "<group>"; };
+		4FC88CEB2C48178300D4C69A /* Robot.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = Robot.hpp; sourceTree = "<group>"; };
+		4FC88CEC2C48178300D4C69A /* Robot.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Robot.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +116,10 @@
 				4F6801DA2C46D8EF00EF97A9 /* LaunchScreen.storyboard */,
 				4F6801DD2C46D8EF00EF97A9 /* Info.plist */,
 				4F6801DE2C46D8EF00EF97A9 /* main.m */,
+				4F37EEF52C48175B00BEED2D /* File.swift */,
+				4F37EEF42C48175B00BEED2D /* BOT-anist-UIKit-Bridging-Header.h */,
+				4FC88CEB2C48178300D4C69A /* Robot.hpp */,
+				4FC88CEC2C48178300D4C69A /* Robot.mm */,
 			);
 			path = "BOT-anist-UIKit";
 			sourceTree = "<group>";
@@ -145,6 +155,7 @@
 				TargetAttributes = {
 					4F6801C82C46D8EE00EF97A9 = {
 						CreatedOnToolsVersion = 16.0;
+						LastSwiftMigration = 1600;
 					};
 				};
 			};
@@ -188,6 +199,8 @@
 				4F6801DF2C46D8EF00EF97A9 /* main.m in Sources */,
 				4F0ECBAD2C4815110077673A /* RobotCustomizationPickerItemModel.mm in Sources */,
 				4F0ECBA72C4813790077673A /* RobotCustomizationPickerViewModel.mm in Sources */,
+				4F37EEF62C48175B00BEED2D /* File.swift in Sources */,
+				4FC88CED2C48178300D4C69A /* Robot.mm in Sources */,
 				4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */,
 				4F6801D12C46D8EE00EF97A9 /* SceneDelegate.mm in Sources */,
 				4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */,
@@ -267,6 +280,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 			};
 			name = Debug;
 		};
@@ -321,6 +335,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
+				SWIFT_OBJC_INTEROP_MODE = objcxx;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -330,6 +345,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P53D29U9LJ;
@@ -349,6 +365,9 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "BOT-anist-UIKit/BOT-anist-UIKit-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Debug;
@@ -358,6 +377,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P53D29U9LJ;
@@ -377,6 +397,8 @@
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
 				SUPPORTS_MACCATALYST = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = "BOT-anist-UIKit/BOT-anist-UIKit-Bridging-Header.h";
+				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
 			};
 			name = Release;
