@@ -1,0 +1,408 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 60;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		4F0ECBA72C4813790077673A /* RobotCustomizationPickerViewModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */; };
+		4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA92C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm */; };
+		4F0ECBAD2C4815110077673A /* RobotCustomizationPickerItemModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */; };
+		4F6801CE2C46D8EE00EF97A9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6801CD2C46D8EE00EF97A9 /* AppDelegate.m */; };
+		4F6801D12C46D8EE00EF97A9 /* SceneDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F6801D02C46D8EE00EF97A9 /* SceneDelegate.mm */; };
+		4F6801D92C46D8EF00EF97A9 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F6801D82C46D8EF00EF97A9 /* Assets.xcassets */; };
+		4F6801DC2C46D8EF00EF97A9 /* Base in Resources */ = {isa = PBXBuildFile; fileRef = 4F6801DB2C46D8EF00EF97A9 /* Base */; platformFilter = ios; };
+		4F6801DF2C46D8EF00EF97A9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 4F6801DE2C46D8EF00EF97A9 /* main.m */; };
+		4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m */; };
+		4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */; };
+		4FB35EF52C478C2C00BFF649 /* RobotPreviewViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EF42C478C2C00BFF649 /* RobotPreviewViewController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		4F0ECBA52C4813790077673A /* RobotCustomizationPickerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerViewModel.h; sourceTree = "<group>"; };
+		4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerViewModel.mm; sourceTree = "<group>"; };
+		4F0ECBA82C4813CF0077673A /* RobotCustomizationPickerSectionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerSectionModel.h; sourceTree = "<group>"; };
+		4F0ECBA92C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerSectionModel.mm; sourceTree = "<group>"; };
+		4F0ECBAB2C4815110077673A /* RobotCustomizationPickerItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerItemModel.h; sourceTree = "<group>"; };
+		4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerItemModel.mm; sourceTree = "<group>"; };
+		4F6801C92C46D8EE00EF97A9 /* BOT-anist-UIKit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "BOT-anist-UIKit.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		4F6801CC2C46D8EE00EF97A9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
+		4F6801CD2C46D8EE00EF97A9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		4F6801CF2C46D8EE00EF97A9 /* SceneDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SceneDelegate.h; sourceTree = "<group>"; };
+		4F6801D02C46D8EE00EF97A9 /* SceneDelegate.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = SceneDelegate.mm; sourceTree = "<group>"; };
+		4F6801D82C46D8EF00EF97A9 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		4F6801DB2C46D8EF00EF97A9 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		4F6801DD2C46D8EF00EF97A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		4F6801DE2C46D8EF00EF97A9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		4FB35EAC2C46DA7500BFF649 /* RobotCustomizationPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerViewController.h; sourceTree = "<group>"; };
+		4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RobotCustomizationPickerViewController.m; sourceTree = "<group>"; };
+		4FB35EF02C4787E700BFF649 /* RobotCustomizationSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationSplitViewController.h; sourceTree = "<group>"; };
+		4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationSplitViewController.mm; sourceTree = "<group>"; };
+		4FB35EF32C478C2C00BFF649 /* RobotPreviewViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotPreviewViewController.h; sourceTree = "<group>"; };
+		4FB35EF42C478C2C00BFF649 /* RobotPreviewViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = RobotPreviewViewController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		4F6801C62C46D8EE00EF97A9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		4F0ECBA32C4813500077673A /* CustomizationPicker */ = {
+			isa = PBXGroup;
+			children = (
+				4FB35EAC2C46DA7500BFF649 /* RobotCustomizationPickerViewController.h */,
+				4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m */,
+				4F0ECBA52C4813790077673A /* RobotCustomizationPickerViewModel.h */,
+				4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */,
+				4F0ECBA82C4813CF0077673A /* RobotCustomizationPickerSectionModel.h */,
+				4F0ECBA92C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm */,
+				4F0ECBAB2C4815110077673A /* RobotCustomizationPickerItemModel.h */,
+				4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */,
+			);
+			path = CustomizationPicker;
+			sourceTree = "<group>";
+		};
+		4F0ECBA42C48135E0077673A /* Preview */ = {
+			isa = PBXGroup;
+			children = (
+				4FB35EF32C478C2C00BFF649 /* RobotPreviewViewController.h */,
+				4FB35EF42C478C2C00BFF649 /* RobotPreviewViewController.m */,
+			);
+			path = Preview;
+			sourceTree = "<group>";
+		};
+		4F6801C02C46D8EE00EF97A9 = {
+			isa = PBXGroup;
+			children = (
+				4F6801CB2C46D8EE00EF97A9 /* BOT-anist-UIKit */,
+				4F6801CA2C46D8EE00EF97A9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		4F6801CA2C46D8EE00EF97A9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4F6801C92C46D8EE00EF97A9 /* BOT-anist-UIKit.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		4F6801CB2C46D8EE00EF97A9 /* BOT-anist-UIKit */ = {
+			isa = PBXGroup;
+			children = (
+				4F6801CC2C46D8EE00EF97A9 /* AppDelegate.h */,
+				4F6801CD2C46D8EE00EF97A9 /* AppDelegate.m */,
+				4F6801CF2C46D8EE00EF97A9 /* SceneDelegate.h */,
+				4F6801D02C46D8EE00EF97A9 /* SceneDelegate.mm */,
+				4FB35EF02C4787E700BFF649 /* RobotCustomizationSplitViewController.h */,
+				4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */,
+				4F0ECBA32C4813500077673A /* CustomizationPicker */,
+				4F0ECBA42C48135E0077673A /* Preview */,
+				4F6801D82C46D8EF00EF97A9 /* Assets.xcassets */,
+				4F6801DA2C46D8EF00EF97A9 /* LaunchScreen.storyboard */,
+				4F6801DD2C46D8EF00EF97A9 /* Info.plist */,
+				4F6801DE2C46D8EF00EF97A9 /* main.m */,
+			);
+			path = "BOT-anist-UIKit";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		4F6801C82C46D8EE00EF97A9 /* BOT-anist-UIKit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4F6801E22C46D8EF00EF97A9 /* Build configuration list for PBXNativeTarget "BOT-anist-UIKit" */;
+			buildPhases = (
+				4F6801C52C46D8EE00EF97A9 /* Sources */,
+				4F6801C62C46D8EE00EF97A9 /* Frameworks */,
+				4F6801C72C46D8EE00EF97A9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "BOT-anist-UIKit";
+			productName = "BOT-anist-UIKit";
+			productReference = 4F6801C92C46D8EE00EF97A9 /* BOT-anist-UIKit.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		4F6801C12C46D8EE00EF97A9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastUpgradeCheck = 1600;
+				TargetAttributes = {
+					4F6801C82C46D8EE00EF97A9 = {
+						CreatedOnToolsVersion = 16.0;
+					};
+				};
+			};
+			buildConfigurationList = 4F6801C42C46D8EE00EF97A9 /* Build configuration list for PBXProject "BOT-anist-UIKit" */;
+			compatibilityVersion = "Xcode 15.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 4F6801C02C46D8EE00EF97A9;
+			productRefGroup = 4F6801CA2C46D8EE00EF97A9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				4F6801C82C46D8EE00EF97A9 /* BOT-anist-UIKit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		4F6801C72C46D8EE00EF97A9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4F6801D92C46D8EF00EF97A9 /* Assets.xcassets in Resources */,
+				4F6801DC2C46D8EF00EF97A9 /* Base in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		4F6801C52C46D8EE00EF97A9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4FB35EF52C478C2C00BFF649 /* RobotPreviewViewController.m in Sources */,
+				4F6801CE2C46D8EE00EF97A9 /* AppDelegate.m in Sources */,
+				4F6801DF2C46D8EF00EF97A9 /* main.m in Sources */,
+				4F0ECBAD2C4815110077673A /* RobotCustomizationPickerItemModel.mm in Sources */,
+				4F0ECBA72C4813790077673A /* RobotCustomizationPickerViewModel.mm in Sources */,
+				4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */,
+				4F6801D12C46D8EE00EF97A9 /* SceneDelegate.mm in Sources */,
+				4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */,
+				4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		4F6801DA2C46D8EF00EF97A9 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4F6801DB2C46D8EF00EF97A9 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		4F6801E02C46D8EF00EF97A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4F6801E12C46D8EF00EF97A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = NO;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		4F6801E32C46D8EF00EF97A9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P53D29U9LJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BOT-anist-UIKit/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pookjw.BOT-anist-UIKit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+			};
+			name = Debug;
+		};
+		4F6801E42C46D8EF00EF97A9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = P53D29U9LJ;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "BOT-anist-UIKit/Info.plist";
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.pookjw.BOT-anist-UIKit";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = "1,2,7";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		4F6801C42C46D8EE00EF97A9 /* Build configuration list for PBXProject "BOT-anist-UIKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F6801E02C46D8EF00EF97A9 /* Debug */,
+				4F6801E12C46D8EF00EF97A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		4F6801E22C46D8EF00EF97A9 /* Build configuration list for PBXNativeTarget "BOT-anist-UIKit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4F6801E32C46D8EF00EF97A9 /* Debug */,
+				4F6801E42C46D8EF00EF97A9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 4F6801C12C46D8EE00EF97A9 /* Project object */;
+}
