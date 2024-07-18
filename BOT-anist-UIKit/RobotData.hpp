@@ -14,24 +14,52 @@
 
 class RobotData {
 public:
-    enum Part {
-        HeadPart, BodyPart, BackpackPart
+    enum class Part {
+        Head, Body, Backpack
     };
     
-    enum Material {
-        MetalMaterial, RainbowMaterial, PlasticMaterial, MeshMaterial
+    static std::array<Part, 3> allParts();
+    
+    enum class Material {
+        Metal, Rainbow, Plastic, Mesh
     };
     
-    enum MaterialColor {
-        MetalPinkMaterialColor, MetalOrangeMaterialColor, MetalGreenMaterialColor, MetalBlueMaterialColor,
-        BeigeMaterialColor, RainbowRedMaterialColor, RoseMaterialColor, BlackMaterialColor,
-        PlasticBlueMaterialColor, PlasticPinkMaterialColor, PlasticOrangeMaterialColor, PlasticGreenMaterialColor,
-        MeshGrayMaterialColor, MeshOrangeMaterialColor, MeshYellowMaterialColor
+    static std::array<Material, 4> allMaterials();
+    
+    enum class MaterialColor {
+        MetalPink,
+        MetalOrange,
+        MetalGreen,
+        MetalBlue,
+        Beige,
+        RainbowRed,
+        Rose,
+        Black,
+        PlasticBlue,
+        PlasticPink,
+        PlasticOrange,
+        PlasticGreen,
+        MeshGray,
+        MeshOrange,
+        MeshYellow
     };
     
-    enum LightColor {
-        RedLightColor, YellowLightColor, GreenLightColor, BlueLightColor, PurpleLightColor, WhiteLightColor, PurpleBlueLightColor, RainbowLightColor
+    static std::array<MaterialColor, 15> allMaterialColors();
+    
+    enum class LightColor {
+        Red,
+        Yellow,
+        Green,
+        Blue,
+        Purple,
+        White,
+        PurpleBlue,
+        Rainbow
     };
+    
+    static std::array<LightColor, 8> allLightColors();
+    
+    //
     
     static std::array<MaterialColor, 4> getMaterialColorsByMaterial(Material material);
     
