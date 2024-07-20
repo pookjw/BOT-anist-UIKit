@@ -52,7 +52,7 @@ actor RobotLoader {
     
     func entity(forPart part: RobotData.Part, index: Int) async -> Entity {
         await robotParts
-            .first { $0.part == part }!
+            .first { $0.part == part && $0.index == index }!
             .entity
             .clone(recursive: true)
     }
@@ -60,7 +60,7 @@ actor RobotLoader {
     func shaderGraphMaterial(forMaterial material: RobotData.Material, part: RobotData.Part, index: Int) -> ShaderGraphMaterial {
         robotMaterials
             .first { $0.robotMaterial == material }!
-            .materialsByPart[part]![index]
+            .materialsByPart[part]![index - 1]
     }
 }
 
@@ -103,10 +103,14 @@ extension RobotLoader {
                         let scene = try await Entity(named: sceneName, in: BOTanistAssetsBundle)
                         let entity = await scene.findEntity(named: entityName)
                         
-                        if robotPart == .Head {
+                        if robotPart == .Body {
+                            var libComponent = AnimationLibraryComponent()
+                            let animationDirectory = "Assets/Robot/animations/\(entityName)"
+                            
                             // TODO: Animation
-//                            var libComponent = AnimationLibraryComponent()
-//                            let animation
+//                            for animationType in AnimationState<<#Value: AnimatableData#>>.allCases {
+//                                
+//                            }
                         }
                         
                         return RobotPartResult(part: robotPart, entity: entity!, index: index)

@@ -11,14 +11,14 @@ extension Entity {
     // 자기 자신은 포함하지 않음 - children만
     func forEachDescendant<T: Component>(
         withComponent componentClass: T.Type = T.self,
-        _ closure: (_ child: Entity, _ component: T) -> Void
-    ) {
+        _ closure: (_ child: Entity, _ component: T) throws -> Void
+    ) rethrows {
         for child in children {
             if let component = child.components[componentClass] {
-                closure(child, component)
+                try closure(child, component)
             }
             
-            child.forEachDescendant(withComponent: componentClass, closure)
+            try child.forEachDescendant(withComponent: componentClass, closure)
         }
     }
 }

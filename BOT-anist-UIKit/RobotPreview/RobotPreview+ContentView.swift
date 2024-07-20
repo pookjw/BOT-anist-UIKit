@@ -18,20 +18,31 @@ extension RobotPreview {
         }
         
         var body: some View {
-            RealityView(
-                make: { _ in },
-                update: { content in
-                    if let creationRoot = viewModel.creationRoot {
-                        content.add(creationRoot)
-                    }
-                },
-                placeholder: {
-                    
-                }
-            )
-            .task {
-                try! await viewModel.load(robotData: robotData)
+            RealityView { content in
+                content.add(viewModel.creationRoot)
+                content.add(viewModel.robotCamera)
             }
+            .simultaneousGesture(dragGesture)
+            .task(id: robotData) {
+                do {
+                    try await viewModel.load(robotData: robotData)
+                } catch is CancellationError {
+                    
+                } catch {
+                    fatalError(error.localizedDescription)
+                }
+            }
+        }
+        
+        private var dragGesture: some Gesture {
+            DragGesture()
+                .targetedToAnyEntity()
+                .onChanged { value in
+                    viewModel.onDragGestureChanged(value)
+                }
+                .onEnded { value in
+                    viewModel.onDragGestureEnded(value)
+                }
         }
     }
 }

@@ -90,9 +90,11 @@ std::array<RobotData::MaterialColor, 4> RobotData::getMaterialColorsByMaterial(R
 }
 
 RobotData::RobotData() {
+    face = Face::Circle;
+    
     selectedIndicesByPart = {
-        {Part::Head, 0},
-        {Part::Body, 0},
+        {Part::Head, 2},
+        {Part::Body, 2},
         {Part::Backpack, 1}
     };
     
@@ -113,6 +115,17 @@ RobotData::RobotData() {
         {Part::Body, LightColor::White},
         {Part::Backpack, LightColor::White}
     };
+}
+
+bool RobotData::operator==(const RobotData &other) const {
+    return this->face == other.face &&
+    this->materialsByPart == other.materialsByPart &&
+    this->materialColorsByPart == other.materialColorsByPart &&
+    this->lightColorsByPart == other.lightColorsByPart;
+}
+
+bool RobotData::operator!=(const RobotData &other) const {
+    return !(*this == other);
 }
 
 void RobotData::setFace(Face face) {

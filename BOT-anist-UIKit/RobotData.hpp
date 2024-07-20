@@ -72,6 +72,9 @@ public:
     
     RobotData();
     
+    bool operator==(const RobotData &other) const;
+    bool operator!=(const RobotData &other) const;
+    
     void setFace(Face face);
     Face getFace() const;
     

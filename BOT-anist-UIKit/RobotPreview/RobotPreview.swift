@@ -18,3 +18,13 @@ public func makeRobotPreviewHostingController(robotData: RobotData) -> UIViewCon
         return hostingController
     }
 }
+
+@_expose(Cxx, "updateRobotPreviewHostingController")
+public func updateRobotPreviewHostingController(_ hostingController: UIViewController, robotData: RobotData) {
+    MainActor.assumeIsolated {
+        let rootView = RobotPreview.ContentView(robotData: robotData)
+        let castedHostingController = hostingController as! UIHostingController<RobotPreview.ContentView>
+        
+        castedHostingController.rootView = rootView
+    }
+}
