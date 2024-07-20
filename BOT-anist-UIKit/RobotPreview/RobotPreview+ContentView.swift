@@ -18,11 +18,20 @@ extension RobotPreview {
         }
         
         var body: some View {
-            Color.pink
-                .ignoresSafeArea()
-                .task {
-                    try! await viewModel.load()
+            RealityView(
+                make: { _ in },
+                update: { content in
+                    if let creationRoot = viewModel.creationRoot {
+                        content.add(creationRoot)
+                    }
+                },
+                placeholder: {
+                    
                 }
+            )
+            .task {
+                try! await viewModel.load(robotData: robotData)
+            }
         }
     }
 }

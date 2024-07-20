@@ -5,150 +5,93 @@
 //  Created by Jinwoo Kim on 7/18/24.
 //
 
-import RealityKit
+@preconcurrency import RealityFoundation
 import Observation
-import BOTanistAssets
 
 extension RobotPreview {
     @Observable
     @MainActor
     final class ContentViewModel {
-        private(set) var robotParts: [RobotPartResult] = []
-        private(set) var robotMaterials: [RobotMaterialResult] = []
+        private(set) var creationRoot: Entity?
         
-        func load() async throws {
-            let robotParts = try await robotParts()
-            let robotMaterials = try await robotMaterials()
+        func load(robotData: RobotData) async throws {
+            let loader = RobotLoader.shared
             
-            self.robotParts = robotParts
-            self.robotMaterials = robotMaterials
-        }
-    }
-}
-
-extension RobotPreview.ContentViewModel {
-    struct RobotPartResult: Sendable {
-        let part: RobotData.Part
-        let entity: Entity
-        let index: Int
-    }
-    
-    private func robotParts() async throws -> [RobotPartResult] {
-        try await withThrowingTaskGroup(of: RobotPartResult.self, returning: [RobotPartResult].self) { taskGroup in
-            RobotData.allParts().forEach { robotPart in
-                for index in 1...3 {
-                    taskGroup.addTask {
-                        let entityName: String
-                        let sceneName: String
-                        
-                        switch robotPart {
-                        case .Head:
-                            entityName = "head\(index)"
-                            sceneName = "scenes/head\(index)"
-                        case .Body:
-                            entityName = "body\(index)"
-                            sceneName = "scenes/body\(index)"
-                        case .Backpack:
-                            entityName = "backpack\(index)"
-                            sceneName = "scenes/backpack\(index)"
-                        @unknown default:
-                            fatalError()
-                        }
-                        
-                        let scene = try await Entity(named: sceneName, in: BOTanistAssetsBundle)
-                        let entity = await scene.findEntity(named: entityName)
-                        
-                        if robotPart == .Head {
-                            // TODO: Animation
-//                            var libComponent = AnimationLibraryComponent()
-//                            let animation
-                        }
-                        
-                        return RobotPartResult(part: robotPart, entity: entity!, index: index)
-                    }
-                }
-            }
+            try await loader.load()
+            
+            let creationRoot = Entity()
+            
+#if os(macOS) || os(iOS)
+            creationRoot.scale = SIMD3<Float>(repeating: 0.027)
+            creationRoot.position = SIMD3<Float>(x: -0, y: -0.022, z: -0.05)
+#else
+            creationRoot.scale = SIMD3<Float>(repeating: 0.23)
+            creationRoot.position = SIMD3<Float>(x: -0.02, y: -0.175, z: -0.05)
+#endif
             
             //
             
-            var results: [RobotPartResult] = []
-            
-            for try await value in taskGroup {
-                results.append(value)
-            }
-            
-            return results
-        }
-    }
-}
-
-extension RobotPreview.ContentViewModel {
-    struct RobotMaterialResult: @unchecked Sendable {
-        let robotMaterial: RobotData.Material
-        let materialsByPart: [RobotData.Part: [ShaderGraphMaterial]]
-    }
-    
-    private func robotMaterials() async throws -> [RobotMaterialResult] {
-        try await withThrowingTaskGroup(of: RobotMaterialResult.self, returning: [RobotMaterialResult].self) { taskGroup in
-            RobotData.allMaterials().forEach { material in
-                taskGroup.addTask { @MainActor in
-                    let sceneName: String
-                    
-                    switch material {
-                    case .Metal:
-                        sceneName = "Materials/M_metal"
-                    case .Rainbow:
-                        sceneName = "Materials/M_rainbow"
-                    case .Plastic:
-                        sceneName = "Materials/M_plastic"
-                    case .Mesh:
-                        sceneName = "Materials/M_mesh"
-                    @unknown default:
-                        fatalError()
-                    }
-                    
-                    let scene = try await Entity(named: sceneName, in: BOTanistAssetsBundle)
-                    var materialsByPart: [RobotData.Part: [ShaderGraphMaterial]] = [:]
-                    
-                    RobotData.allParts().forEach { part in
-                        let suffix: String
+            try await withThrowingDiscardingTaskGroup { taskGroup in
+                RobotData.allParts().forEach { part in
+                    taskGroup.addTask { @MainActor in
+                        let entity = await loader.entity(forPart: part, index: robotData.getSelectedIndexByPart(part))
+                        entity.components.set(InputTargetComponent())
+                        creationRoot.addChild(entity)
                         
-                        switch part {
-                        case .Head:
-                            suffix = "H"
-                        case .Body:
-                            suffix = "B"
-                        case .Backpack:
-                            suffix = "BP"
-                        @unknown default:
-                            fatalError()
-                        }
+                        //
                         
-                        for index in 1...3 {
-                            let entityName = "\(suffix)\(index)"
-                            let entity = scene.findEntity(named: entityName)!
-                            let modelComponent = entity.components[ModelComponent.self]!
-                            let material = modelComponent.materials.first as! ShaderGraphMaterial
+                        let selectedIndex = robotData.getSelectedIndexByPart(part)
+                        let material = robotData.getMaterialByPart(part)
+                        
+                        var shaderGraphMaterial = await loader.shaderGraphMaterial(forMaterial: material, part: part, index: selectedIndex)
+                        
+                        if shaderGraphMaterial.parameterNames.contains("mat_switch") {
+                            let materialColor = robotData.getMaterialColorByPart(part)
+                            let colorIndex = materialColor.index(byMaterial: material)
                             
-                            var materials: [ShaderGraphMaterial] = materialsByPart[part] ?? []
-                            materials.append(material)
-                            materialsByPart[part] = materials
+                            try shaderGraphMaterial.setParameter(name: "mat_switch", value: MaterialParameters.Value.int(Int32(colorIndex)))
+                        }
+                        
+                        if shaderGraphMaterial.parameterNames.contains("light_switch") {
+                            let lightColor = robotData.getLightColorByPart(part)
+                            let colorIndex = lightColor.index
+                            
+                            try shaderGraphMaterial.setParameter(name: "light_switch", value: MaterialParameters.Value.int(Int32(colorIndex)))
+                        }
+                        
+                        if part == .Head {
+                            if shaderGraphMaterial.parameterNames.contains("face_switch") {
+                                let face = robotData.getFace()
+                                let faceIndex = face.index
+                                
+                                try shaderGraphMaterial.setParameter(name: "face_switch", value: MaterialParameters.Value.int(Int32(faceIndex)))
+                            }
+                        }
+                        
+                        entity.forEachDescendant(withComponent: ModelComponent.self) { child, component in
+                            var modelComponent = component
+                            
+                            modelComponent.materials = modelComponent
+                                .materials
+                                .map {
+                                    guard let oldMaterial = $0 as? ShaderGraphMaterial else {
+                                        return $0
+                                    }
+                                    
+                                    if oldMaterial.name!.contains("_\(part.suffix)") {
+                                        return shaderGraphMaterial
+                                    } else {
+                                        return $0
+                                    }
+                                }
+                            
+                            entity.components.set(modelComponent)
                         }
                     }
-                    
-                    return RobotMaterialResult(robotMaterial: material, materialsByPart: materialsByPart)
                 }
             }
             
-            //
-            
-            var results: [RobotMaterialResult] = []
-            
-            for try await value in taskGroup {
-                results.append(value)
-            }
-            
-            return results
+            self.creationRoot = creationRoot
         }
     }
 }

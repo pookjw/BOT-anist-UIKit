@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <unordered_map>
 #include <array>
+#include "swiftToCxx.h"
 
 class RobotData {
 public:
@@ -25,6 +26,12 @@ public:
     };
     
     static std::array<Material, 4> allMaterials();
+    
+    enum class Face {
+        Square,
+        Circle,
+        Heart
+    };
     
     enum class MaterialColor {
         MetalPink,
@@ -65,18 +72,26 @@ public:
     
     RobotData();
     
+    void setFace(Face face);
+    Face getFace() const;
+    
+    void setSelectedIndexByPart(Part part, swift::Int selectedIndex);
+    swift::Int getSelectedIndexByPart(Part part) const;
+    
     void setMaterialByPart(Material material, Part part);
-    Material getMaterialByPart(Part part);
+    Material getMaterialByPart(Part part) const;
     
     void setMaterialColorByPart(MaterialColor materialColor, Part part);
-    MaterialColor getMaterialColorByPart(Part part);
+    MaterialColor getMaterialColorByPart(Part part) const;
     
     void setLightColorByPart(LightColor lightColor, Part part);
-    LightColor getLightColorByPart(Part part);
+    LightColor getLightColorByPart(Part part) const;
 private:
-    std::unordered_map<Part, Material> materials;
-    std::unordered_map<Part, MaterialColor> materialColor;
-    std::unordered_map<Part, LightColor> lightColor;
+    Face face;
+    std::unordered_map<Part, swift::Int> selectedIndicesByPart;
+    std::unordered_map<Part, Material> materialsByPart;
+    std::unordered_map<Part, MaterialColor> materialColorsByPart;
+    std::unordered_map<Part, LightColor> lightColorsByPart;
 };
 
 #endif /* Robot_hpp */

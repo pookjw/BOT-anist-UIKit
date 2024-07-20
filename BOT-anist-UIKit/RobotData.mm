@@ -6,6 +6,8 @@
 //
 
 #import "RobotData.hpp"
+#import <Foundation/Foundation.h>
+#include <algorithm>
 
 std::array<RobotData::Part, 3> RobotData::allParts() {
     return {
@@ -88,21 +90,71 @@ std::array<RobotData::MaterialColor, 4> RobotData::getMaterialColorsByMaterial(R
 }
 
 RobotData::RobotData() {
-    materials = {
+    selectedIndicesByPart = {
+        {Part::Head, 0},
+        {Part::Body, 0},
+        {Part::Backpack, 1}
+    };
+    
+    materialsByPart = {
         {Part::Head, Material::Plastic},
         {Part::Body, Material::Plastic},
         {Part::Backpack, Material::Plastic}
     };
     
-    materialColor = {
+    materialColorsByPart = {
         {Part::Head, MaterialColor::PlasticBlue},
         {Part::Body, MaterialColor::PlasticBlue},
         {Part::Backpack, MaterialColor::PlasticBlue}
     };
     
-    lightColor = {
+    lightColorsByPart = {
         {Part::Head, LightColor::White},
         {Part::Body, LightColor::White},
         {Part::Backpack, LightColor::White}
     };
+}
+
+void RobotData::setFace(Face face) {
+    this->face = face;
+}
+
+RobotData::Face RobotData::getFace() const {
+    return face;
+}
+
+void RobotData::setSelectedIndexByPart(Part part, swift::Int selectedIndex) {
+    selectedIndicesByPart[part] = selectedIndex;
+}
+
+swift::Int RobotData::getSelectedIndexByPart(Part part) const {
+    return selectedIndicesByPart.at(part);
+}
+
+void RobotData::setMaterialByPart(Material material, Part part) {
+    materialsByPart[part] = material;
+}
+
+RobotData::Material RobotData::getMaterialByPart(Part part) const {
+    return materialsByPart.at(part);
+}
+
+void RobotData::setMaterialColorByPart(MaterialColor materialColor, Part part) {
+    auto arr = getMaterialColorsByMaterial(getMaterialByPart(part));
+    auto it = std::find(arr.cbegin(), arr.cend(), materialColor);
+    assert(it == arr.end());
+    
+    materialColorsByPart[part] = materialColor;
+}
+
+RobotData::MaterialColor RobotData::getMaterialColorByPart(Part part) const {
+    return materialColorsByPart.at(part);
+}
+
+void RobotData::setLightColorByPart(LightColor lightColor, Part part) {
+    lightColorsByPart[part] = lightColor;
+}
+
+RobotData::LightColor RobotData::getLightColorByPart(Part part)  const{
+    return lightColorsByPart.at(part);
 }
