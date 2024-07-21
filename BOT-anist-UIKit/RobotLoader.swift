@@ -188,19 +188,26 @@ extension RobotLoader {
                         }
                         
                         let scene = try await Entity(named: sceneName, in: BOTanistAssetsBundle)
-                        let entity = await scene.findEntity(named: entityName)
+                        let entity = await scene.findEntity(named: entityName)!
                         
                         if robotPart == .Body {
                             var libComponent = AnimationLibraryComponent()
-                            let animationDirectory = "Assets/Robot/animations/\(entityName)"
+                            let animationDirectory = "Assets/Robot/animations/\(entityName)/"
                             
-                            // TODO: Animation
-//                            for animationType in AnimationState<<#Value: AnimatableData#>>.allCases {
-//                                
-//                            }
+                            for animationState in RobotLoader.AnimationState.allCases {
+                                let name = "\(animationDirectory)\(entityName)\(animationState.fileSuffix)"
+                                let rootEntity = try await Entity(named: name, in: BOTanistAssetsBundle)
+                                
+                                let animationEntity = await rootEntity.findEntity(named: "rig_grp")!
+                                let animation = await animationEntity.availableAnimations.first!
+                                libComponent[animationState.rawValue] = animation
+                            }
+                            
+                            await entity.components.set(libComponent)
+                            await entity.components.set(AnimationStateComponent(animationState: .idle))
                         }
                         
-                        return RobotPartResult(part: robotPart, entity: entity!, index: index)
+                        return RobotPartResult(part: robotPart, entity: entity, index: index)
                     }
                 }
             }

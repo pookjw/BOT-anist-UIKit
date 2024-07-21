@@ -28,6 +28,16 @@ __attribute__((objc_direct_members))
     return isOwnNavigationControllerKey;
 }
 
+- (BOOL)respondsToSelector:(SEL)aSelector {
+    BOOL responds = [super respondsToSelector:aSelector];
+    
+    if (!responds) {
+        NSLog(@"%s", sel_getName(aSelector));
+    }
+    
+    return responds;
+}
+
 - (void)dealloc {
     [_hostingController release];
     [_explorationBarButtonItem release];
@@ -110,7 +120,7 @@ __attribute__((objc_direct_members))
     
     objc_setAssociatedObject(navigationController, RobotPreviewViewController.isOwnNavigationControllerKey, [NSNull null], OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     
-    navigationController.modalPresentationStyle = UIModalPresentationOverFullScreen;
+    navigationController.modalPresentationStyle = UIModalPresentationFullScreen;
     navigationController.presentationController.delegate = self;
     [self presentViewController:navigationController animated:YES completion:nil];
     [navigationController release];

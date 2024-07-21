@@ -61,16 +61,10 @@ extension View {
         return simultaneousGesture(
             DragGesture()
                 .onChanged { value in
-                    let translation = value.translation
-                    let movementVector = SIMD3<Float>(x: Float(translation.width), y: 0.0, z: Float(translation.height))
-                    
-                    viewModel.movementVector = movementVector
-                    
-                    // TODO: Animation
+                    viewModel.handleGestureChanged(value)
                 }
                 .onEnded { value in
-                    // TODO: Animation
-                    viewModel.movementVector = .zero
+                    viewModel.handleGestureEnded(value)
                 }
         )
         #else

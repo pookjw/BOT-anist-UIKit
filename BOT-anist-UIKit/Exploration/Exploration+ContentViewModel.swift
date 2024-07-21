@@ -11,6 +11,7 @@ import RealityFoundation
 import UniformTypeIdentifiers
 import Spatial
 import BOTanistAssets
+import SwiftUI
 
 extension Exploration {
     @MainActor
@@ -84,6 +85,25 @@ extension Exploration {
         func handleAnimationStopEvent(_ event: AnimationEvents.PlaybackTerminated) {
             // TODO
         }
+        
+        func handleGestureChanged(_ value: DragGesture.Value) {
+            guard let robotCharacter else { return }
+            
+            let translation = value.translation
+            let movementVector = SIMD3<Float>(x: Float(translation.width), y: 0.0, z: Float(translation.height))
+            
+            self.movementVector = movementVector
+            
+            if robotCharacter.bodyEntity.components[RobotLoader.AnimationStateComponent.self]!.animationState == .idle {
+                robotCharacter.playAnimation(.walkLoop)
+            }
+        }
+        
+        func handleGestureEnded(_ value: DragGesture.Value) {
+            movementVector = .zero
+            
+            robotCharacter?.playAnimation(.walkEnd)
+        }
     }
 }
 
@@ -126,21 +146,19 @@ extension Exploration.ContentViewModel {
             return
         }
         
-        // TODO: Animation
-        
         let normalizedMovement = movementVector / max(100.0, length(movementVector))
         
-        print(normalizedMovement * 0.165 * speedScale * deltaTime)
+//        characterParent.position += normalizedMovement * 0.165 * speedScale * deltaTime
         
-//        characterParent.moveCharacter(
-//            by: normalizedMovement * 0.165 * speedScale * deltaTime,
-//            deltaTime: deltaTime,
-//            relativeTo: nil,
-//            collisionHandler: { collision in
-//                
-//            }
-//        )
-        characterParent.position += normalizedMovement * 0.165 * speedScale * deltaTime
+        // CharacterControllerComponent이 있어야 작동함. collision을 자동으로 계산해줌
+        characterParent.moveCharacter(
+            by: normalizedMovement * 0.165 * speedScale * deltaTime,
+            deltaTime: deltaTime,
+            relativeTo: nil,
+            collisionHandler: { collision in
+                
+            }
+        )
     }
     
     private func handleZeroMovement(deltaTime: Float) {

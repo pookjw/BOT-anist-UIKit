@@ -18,6 +18,7 @@
 		4F0ECBA72C4813790077673A /* RobotCustomizationPickerViewModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */; };
 		4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA92C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm */; };
 		4F0ECBAD2C4815110077673A /* RobotCustomizationPickerItemModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */; };
+		4F61D03C2C4D4A7800840A45 /* RobotLoader+AnimationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F61D03B2C4D4A7800840A45 /* RobotLoader+AnimationState.swift */; };
 		4F6268BA2C4942AA00F19F50 /* RobotPreview+ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6268B92C4942AA00F19F50 /* RobotPreview+ContentView.swift */; };
 		4F6268BD2C49464400F19F50 /* RobotPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6268BC2C49464400F19F50 /* RobotPreview.swift */; };
 		4F6268BF2C4946F500F19F50 /* RobotPreview+ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6268BE2C4946F500F19F50 /* RobotPreview+ContentViewModel.swift */; };
@@ -56,6 +57,7 @@
 		4F0ECBAB2C4815110077673A /* RobotCustomizationPickerItemModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerItemModel.h; sourceTree = "<group>"; };
 		4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerItemModel.mm; sourceTree = "<group>"; };
 		4F37EEF42C48175B00BEED2D /* BOT-anist-UIKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BOT-anist-UIKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		4F61D03B2C4D4A7800840A45 /* RobotLoader+AnimationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RobotLoader+AnimationState.swift"; sourceTree = "<group>"; };
 		4F6268B92C4942AA00F19F50 /* RobotPreview+ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RobotPreview+ContentView.swift"; sourceTree = "<group>"; };
 		4F6268BC2C49464400F19F50 /* RobotPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotPreview.swift; sourceTree = "<group>"; };
 		4F6268BE2C4946F500F19F50 /* RobotPreview+ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RobotPreview+ContentViewModel.swift"; sourceTree = "<group>"; };
@@ -176,6 +178,7 @@
 				4FD6F6522C4A7EA100FA4CC4 /* Entity+forEachDescendant.swift */,
 				4FD6F6542C4B8B6A00FA4CC4 /* RobotData_Part+Suffix.swift */,
 				4F0659132C49725B00251655 /* RobotLoader.swift */,
+				4F61D03B2C4D4A7800840A45 /* RobotLoader+AnimationState.swift */,
 				4F06593C2C4BDE6F00251655 /* RobotData+Equtable.swift */,
 				4FD6F65A2C4B9E0500FA4CC4 /* RobotData_Face+Index.swift */,
 				4FD6F6562C4B91B600FA4CC4 /* RobotData_MaterialColor+Index.swift */,
@@ -260,6 +263,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4F61D03C2C4D4A7800840A45 /* RobotLoader+AnimationState.swift in Sources */,
 				4FD6F6552C4B8B6A00FA4CC4 /* RobotData_Part+Suffix.swift in Sources */,
 				4F0659422C4C040000251655 /* Exploration.swift in Sources */,
 				4F6268BF2C4946F500F19F50 /* RobotPreview+ContentViewModel.swift in Sources */,
