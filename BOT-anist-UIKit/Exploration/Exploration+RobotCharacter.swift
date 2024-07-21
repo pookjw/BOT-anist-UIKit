@@ -21,6 +21,7 @@ extension Exploration {
         var isRotatingToFaceFront = false // TODO
         private var animationControllers: [RobotLoader.AnimationState: AnimationPlaybackController] = [:]
         
+        // TODO: 더 구현해야함
         private var idleTimer: Float = 0.0
         
         private var cancellables = Set<AnyCancellable>()
