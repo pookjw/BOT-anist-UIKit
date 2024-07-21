@@ -14,6 +14,7 @@
 		4F0659482C4C04E300251655 /* ExplorationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0659472C4C04E300251655 /* ExplorationViewController.mm */; };
 		4F06594A2C4C095D00251655 /* autumn_field_puresky_1k.png in Resources */ = {isa = PBXBuildFile; fileRef = 4F0659492C4C095D00251655 /* autumn_field_puresky_1k.png */; platformFilter = ios; };
 		4F06594C2C4C09D200251655 /* Exploration+ContentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F06594B2C4C09D200251655 /* Exploration+ContentViewModel.swift */; };
+		4F06594E2C4CD1C200251655 /* Exploration+RobotCharacter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F06594D2C4CD1BB00251655 /* Exploration+RobotCharacter.swift */; };
 		4F0ECBA72C4813790077673A /* RobotCustomizationPickerViewModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */; };
 		4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBA92C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm */; };
 		4F0ECBAD2C4815110077673A /* RobotCustomizationPickerItemModel.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F0ECBAC2C4815110077673A /* RobotCustomizationPickerItemModel.mm */; };
@@ -47,6 +48,7 @@
 		4F0659472C4C04E300251655 /* ExplorationViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = ExplorationViewController.mm; sourceTree = "<group>"; };
 		4F0659492C4C095D00251655 /* autumn_field_puresky_1k.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = autumn_field_puresky_1k.png; sourceTree = "<group>"; };
 		4F06594B2C4C09D200251655 /* Exploration+ContentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exploration+ContentViewModel.swift"; sourceTree = "<group>"; };
+		4F06594D2C4CD1BB00251655 /* Exploration+RobotCharacter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Exploration+RobotCharacter.swift"; sourceTree = "<group>"; };
 		4F0ECBA52C4813790077673A /* RobotCustomizationPickerViewModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerViewModel.h; sourceTree = "<group>"; };
 		4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerViewModel.mm; sourceTree = "<group>"; };
 		4F0ECBA82C4813CF0077673A /* RobotCustomizationPickerSectionModel.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerSectionModel.h; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				4F0659412C4C040000251655 /* Exploration.swift */,
 				4F0659432C4C040B00251655 /* Exploration+ContentView.swift */,
 				4F06594B2C4C09D200251655 /* Exploration+ContentViewModel.swift */,
+				4F06594D2C4CD1BB00251655 /* Exploration+RobotCharacter.swift */,
 			);
 			path = Exploration;
 			sourceTree = "<group>";
@@ -281,6 +284,7 @@
 				4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */,
 				4F0659142C49725B00251655 /* RobotLoader.swift in Sources */,
 				4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm in Sources */,
+				4F06594E2C4CD1C200251655 /* Exploration+RobotCharacter.swift in Sources */,
 				4F6268BA2C4942AA00F19F50 /* RobotPreview+ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

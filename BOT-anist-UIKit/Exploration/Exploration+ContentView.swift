@@ -47,9 +47,34 @@ extension Exploration {
                 }
             )
             .ignoresSafeArea()
+            .platformTouchControls(viewModel: viewModel)
             .task {
-                try! await viewModel.load()
+                try! await viewModel.load(robotData: robotData)
             }
         }
+    }
+}
+
+extension View {
+    fileprivate func platformTouchControls(viewModel: Exploration.ContentViewModel) -> some View {
+        #if !os(visionOS)
+        return simultaneousGesture(
+            DragGesture()
+                .onChanged { value in
+                    let translation = value.translation
+                    let movementVector = SIMD3<Float>(x: Float(translation.width), y: 0.0, z: Float(translation.height))
+                    
+                    viewModel.movementVector = movementVector
+                    
+                    // TODO: Animation
+                }
+                .onEnded { value in
+                    // TODO: Animation
+                    viewModel.movementVector = .zero
+                }
+        )
+        #else
+        fatalError()
+        #endif
     }
 }

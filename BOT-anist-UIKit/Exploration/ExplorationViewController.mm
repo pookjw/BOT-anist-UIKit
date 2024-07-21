@@ -57,7 +57,7 @@ __attribute__((objc_direct_members))
     __kindof UIViewController *hostingController = BOT_anist_UIKit::makeExplorationHostingController(_robotData);
     
     _hostingController = [hostingController retain];
-    return hostingController;
+    return [hostingController autorelease];
 }
 
 - (UIBarButtonItem *)dismissBarButtonItem {

@@ -5,7 +5,7 @@
 //  Created by Jinwoo Kim on 7/19/24.
 //
 
-import RealityKit
+@preconcurrency import RealityFoundation
 import BOTanistAssets
 
 @globalActor
@@ -29,35 +29,122 @@ actor RobotLoader {
     func load() async throws {
         guard !isLoaded else { return }
         
-        guard !isLoading else {
-            for await _ in isLoadedStream {
+        if isLoading {
+            for await value in isLoadedStream {
+                if value {
+                    return
+                }
+                
+                if isLoading {
+                    continue
+                }
+                
                 break
             }
-            
-            return
         }
         
         isLoading = true
         
-        let robotParts = try await robotParts()
-        let robotMaterials = try await robotMaterials()
-        
-        self.robotParts = robotParts
-        self.robotMaterials = robotMaterials
-        
-        isLoaded = true
-        isLoadedContinuation.yield(true)
-        isLoading = false
+        do {
+            let robotParts = try await robotParts()
+            let robotMaterials = try await robotMaterials()
+            
+            self.robotParts = robotParts
+            self.robotMaterials = robotMaterials
+            
+            isLoaded = true
+            isLoadedContinuation.yield(false)
+            isLoading = false
+        } catch {
+            isLoading = false
+            throw error
+        }
     }
     
-    func entity(forPart part: RobotData.Part, index: Int) async -> Entity {
+    @MainActor
+    func entity(forPart part: RobotData.Part, robotData: RobotData) async throws -> Entity {
+        let entity = await self.entity(forPart: part, index: robotData.getSelectedIndexByPart(part))
+        entity.components.set(InputTargetComponent())
+        
+        //
+        
+        let selectedIndex = robotData.getSelectedIndexByPart(part)
+        let material = robotData.getMaterialByPart(part)
+        
+        let shaderGraphMaterial = await self.shaderGraphMaterial(forMaterial: material, part: part, index: selectedIndex)
+        
+        //
+        
+        try entity.forEachDescendant(withComponent: ModelComponent.self) { child, component in
+            var modelComponent = component
+            
+            try modelComponent.materials = modelComponent
+                .materials
+                .map {
+                    guard let oldMaterial = $0 as? ShaderGraphMaterial else {
+                        return $0
+                    }
+                    
+                    var newMaterial: ShaderGraphMaterial
+                    if oldMaterial.name!.contains("_\(part.suffix)") {
+                        newMaterial = shaderGraphMaterial
+                    } else {
+                        newMaterial = oldMaterial
+                    }
+                    
+                    if newMaterial.parameterNames.contains("mat_switch") {
+                        let materialColor = robotData.getMaterialColorByPart(part)
+                        let colorIndex = materialColor.index(byMaterial: material)
+                        
+                        try newMaterial.setParameter(name: "mat_switch", value: MaterialParameters.Value.int(Int32(colorIndex)))
+                    }
+                    
+                    if newMaterial.parameterNames.contains("light_switch") {
+                        let lightColor = robotData.getLightColorByPart(part)
+                        let colorIndex = lightColor.index
+                        
+                        try newMaterial.setParameter(name: "light_switch", value: MaterialParameters.Value.int(Int32(colorIndex)))
+                    }
+                    
+                    if part == .Head {
+                        if newMaterial.parameterNames.contains("face_switch") {
+                            let face = robotData.getFace()
+                            let faceIndex = face.index
+                            
+                            try newMaterial.setParameter(name: "face_switch", value: MaterialParameters.Value.int(Int32(faceIndex)))
+                        }
+                    }
+                    
+                    return newMaterial
+                }
+            
+            child.components.set(modelComponent)
+            
+            return true
+        }
+        
+        //
+        
+        if part == .Backpack {
+            let bodyIndex = robotData.getSelectedIndexByPart(.Body)
+            
+            for index in 1...3 {
+                let isEnabled = bodyIndex == index
+                entity.findEntity(named: "strap_B\(index)")!.isEnabled = isEnabled
+            }
+        }
+        
+        return entity
+    }
+    
+    private func entity(forPart part: RobotData.Part, index: Int) async -> Entity {
         await robotParts
             .first { $0.part == part && $0.index == index }!
             .entity
             .clone(recursive: true)
     }
     
-    func shaderGraphMaterial(forMaterial material: RobotData.Material, part: RobotData.Part, index: Int) -> ShaderGraphMaterial {
+    private func shaderGraphMaterial(forMaterial material: RobotData.Material, part: RobotData.Part, index: Int) -> ShaderGraphMaterial {
         robotMaterials
             .first { $0.robotMaterial == material }!
             .materialsByPart[part]![index - 1]

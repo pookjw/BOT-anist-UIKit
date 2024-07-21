@@ -30,13 +30,11 @@ extension RobotPreview {
         
         func load(robotData: RobotData) async throws {
             let loader = RobotLoader.shared
-            
             try await loader.load()
             
             let creationRoot = creationRoot
             
-            let children = creationRoot.children
-            for child in children {
+            for child in creationRoot.children {
                 creationRoot.removeChild(child)
             }
             
@@ -52,79 +50,9 @@ extension RobotPreview {
             
             try await withThrowingDiscardingTaskGroup { taskGroup in
                 RobotData.allParts().forEach { part in
-                    taskGroup.addTask { @MainActor in
-                        let entity = await loader.entity(forPart: part, index: robotData.getSelectedIndexByPart(part))
-                        entity.components.set(InputTargetComponent())
-                        
-                        //
-                        
-                        let selectedIndex = robotData.getSelectedIndexByPart(part)
-                        let material = robotData.getMaterialByPart(part)
-                        
-                        let shaderGraphMaterial = await loader.shaderGraphMaterial(forMaterial: material, part: part, index: selectedIndex)
-                        
-                        //
-                        
-                        try entity.forEachDescendant(withComponent: ModelComponent.self) { child, component in
-                            var modelComponent = component
-                            
-                            try modelComponent.materials = modelComponent
-                                .materials
-                                .map {
-                                    guard let oldMaterial = $0 as? ShaderGraphMaterial else {
-                                        return $0
-                                    }
-                                    
-                                    var newMaterial: ShaderGraphMaterial
-                                    if oldMaterial.name!.contains("_\(part.suffix)") {
-                                        newMaterial = shaderGraphMaterial
-                                    } else {
-                                        newMaterial = oldMaterial
-                                    }
-                                    
-                                    if newMaterial.parameterNames.contains("mat_switch") {
-                                        let materialColor = robotData.getMaterialColorByPart(part)
-                                        let colorIndex = materialColor.index(byMaterial: material)
-                                        
-                                        try newMaterial.setParameter(name: "mat_switch", value: MaterialParameters.Value.int(Int32(colorIndex)))
-                                    }
-                                    
-                                    if newMaterial.parameterNames.contains("light_switch") {
-                                        let lightColor = robotData.getLightColorByPart(part)
-                                        let colorIndex = lightColor.index
-                                        
-                                        try newMaterial.setParameter(name: "light_switch", value: MaterialParameters.Value.int(Int32(colorIndex)))
-                                    }
-                                    
-                                    if part == .Head {
-                                        if newMaterial.parameterNames.contains("face_switch") {
-                                            let face = robotData.getFace()
-                                            let faceIndex = face.index
-                                            
-                                            try newMaterial.setParameter(name: "face_switch", value: MaterialParameters.Value.int(Int32(faceIndex)))
-                                        }
-                                    }
-                                    
-                                    return newMaterial
-                                }
-                            
-                            child.components.set(modelComponent)
-                        }
-                        
-                        //
-                        
-                        if part == .Backpack {
-                            let bodyIndex = robotData.getSelectedIndexByPart(.Body)
-                            
-                            for index in 1...3 {
-                                let isEnabled = bodyIndex == index
-                                entity.findEntity(named: "strap_B\(index)")!.isEnabled = isEnabled
-                            }
-                        }
-                        
-                        //
-                        
-                        creationRoot.addChild(entity)
+                    taskGroup.addTask {
+                        let partEntity = try await loader.entity(forPart: part, robotData: robotData)
+                        await creationRoot.addChild(partEntity)
                     }
                 }
             }

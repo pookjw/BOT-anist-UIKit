@@ -39,6 +39,7 @@ __attribute__((objc_direct_members))
 
 - (void)dealloc {
     [_pickerViewController release];
+    [_previewViewController release];
     [super dealloc];
 }
 

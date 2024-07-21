@@ -19,32 +19,66 @@ extension Exploration {
         let explorationRoot = Entity()
         let explorationCamera: PerspectiveCamera
         
+        @ObservationIgnored
+        var movementVector = SIMD3<Float>.zero
+        
+        @ObservationIgnored
+        var speedScale: Float = 1.0
+        
 #if !os(visionOS)
         private(set) var environmentResource: EnvironmentResource?
 #endif
+        
+        @ObservationIgnored
+        private var robotCharacter: RobotCharacter?
         
         init() {
             let explorationCamera = PerspectiveCamera()
             explorationCamera.transform.translation = SIMD3(x: 0.0, y: 0.2, z: 0.4)
             let cameraTilt = -0.5
             let rotationAngle = Angle2D(radians: cameraTilt)
-            let rotation = Rotation3D(angle: rotationAngle, axis: .y)
+            let rotation = Rotation3D(angle: rotationAngle, axis: .x)
             explorationCamera.setOrientation(simd_quatf(rotation), relativeTo: nil)
             self.explorationCamera = explorationCamera
         }
         
-        func load() async throws {
+        func load(robotData: RobotData) async throws {
 #if !os(visionOS)
             environmentResource = try await makeEnvironmentResource()
 #endif
             
             let explorationRoot = explorationRoot
             
+            for child in explorationRoot.children {
+                explorationRoot.removeChild(child)
+            }
+            
+            //
+            
             explorationRoot.scale = SIMD3<Float>(repeating: 0.7)
+            
+            let map = try await makeExplorationEnvironment()
+            explorationRoot.addChild(map)
+            
+            //
+            
+            let robotCharacter = try await RobotCharacter(robotData: robotData)
+            
+            explorationRoot.addChild(robotCharacter.characterParent)
+            
+            self.robotCharacter = robotCharacter
         }
         
         func handleUpdateEvent(_ event: SceneEvents.Update) {
-            // TODO
+            // TODO: Animation
+            
+            let deltaTime = Float(event.deltaTime)
+            
+            if movementVector != .zero {
+                handleNonZeroMovement(deltaTime: deltaTime)
+            } else {
+                handleZeroMovement(deltaTime: deltaTime)
+            }
         }
         
         func handleAnimationStopEvent(_ event: AnimationEvents.PlaybackTerminated) {
@@ -76,8 +110,40 @@ extension Exploration.ContentViewModel {
             let meshResource = modelComponent.mesh
             let blendShapeWeightsMapping = BlendShapeWeightsMapping(meshResource: meshResource)
             var blendComponent = BlendShapeWeightsComponent(weightsMapping: blendShapeWeightsMapping)
+            blendComponent.weightSet[0].weights = BlendShapeWeights([0, 1, 0, 0, 0, 0, 0])
+            child.components.set(blendComponent)
+            
+            return true
         }
         
         return environmentResource
+    }
+}
+
+extension Exploration.ContentViewModel {
+    private func handleNonZeroMovement(deltaTime: Float) {
+        guard let characterParent = robotCharacter?.characterParent else {
+            return
+        }
+        
+        // TODO: Animation
+        
+        let normalizedMovement = movementVector / max(100.0, length(movementVector))
+        
+        print(normalizedMovement * 0.165 * speedScale * deltaTime)
+        
+//        characterParent.moveCharacter(
+//            by: normalizedMovement * 0.165 * speedScale * deltaTime,
+//            deltaTime: deltaTime,
+//            relativeTo: nil,
+//            collisionHandler: { collision in
+//                
+//            }
+//        )
+        characterParent.position += normalizedMovement * 0.165 * speedScale * deltaTime
+    }
+    
+    private func handleZeroMovement(deltaTime: Float) {
+        
     }
 }
