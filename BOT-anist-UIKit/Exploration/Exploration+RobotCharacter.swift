@@ -12,7 +12,7 @@ extension Exploration {
     @MainActor
     final class RobotCharacter {
         let characterParent: Entity
-        private let characterModel: Entity
+        let characterModel: Entity
         private let headEntity: Entity
         let bodyEntity: Entity
         private let backpackEntity: Entity
@@ -22,7 +22,7 @@ extension Exploration {
         private var animationControllers: [RobotLoader.AnimationState: AnimationPlaybackController] = [:]
         
         // TODO: 더 구현해야함
-        private var idleTimer: Float = 0.0
+        var idleTimer: Float = 0.0
         
         private var cancellables = Set<AnyCancellable>()
         

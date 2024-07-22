@@ -142,26 +142,61 @@ extension Exploration.ContentViewModel {
 
 extension Exploration.ContentViewModel {
     private func handleNonZeroMovement(deltaTime: Float) {
-        guard let characterParent = robotCharacter?.characterParent else {
+        guard let robotCharacter else {
             return
         }
         
+        let currentAnimationSate = robotCharacter.bodyEntity.components[RobotLoader.AnimationStateComponent.self]!.animationState
+        
+        guard ![.celebrate, .wave].contains(currentAnimationSate) else {
+            return
+        }
+        
+        robotCharacter.idleTimer = 0.0
+        
+        let characterModel = robotCharacter.characterModel
+        let characterParent = robotCharacter.characterParent
         let normalizedMovement = movementVector / max(100.0, length(movementVector))
         
-//        characterParent.position += normalizedMovement * 0.165 * speedScale * deltaTime
+        let speed: Float
+        if currentAnimationSate == .walkEnd {
+            speed = 0.001
+        } else {
+            speed = 0.165
+        }
+        
+//        characterParent.position += normalizedMovement * speed * speedScale * deltaTime
         
         // CharacterControllerComponent이 있어야 작동함. collision을 자동으로 계산해줌
         characterParent.moveCharacter(
-            by: normalizedMovement * 0.165 * speedScale * deltaTime,
+            by: normalizedMovement * speed * speedScale * deltaTime,
             deltaTime: deltaTime,
             relativeTo: nil,
             collisionHandler: { collision in
+                guard var plantComponent = collision.hitEntity.components[PlantComponent.self] else {
+                    return
+                }
                 
+                print(plantComponent)
             }
+        )
+        
+        characterModel.look(
+            at: characterModel.position(relativeTo: characterParent) - normalizedMovement,
+            from: characterModel.position(relativeTo: characterParent),
+            relativeTo: characterParent
         )
     }
     
     private func handleZeroMovement(deltaTime: Float) {
+        guard let robotCharacter else {
+            return
+        }
         
+        robotCharacter.idleTimer += deltaTime
+        
+        let idleTimeout: Float = 2.0
+        
+        // TODO
     }
 }
