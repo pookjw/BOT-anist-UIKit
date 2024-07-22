@@ -6,88 +6,7 @@
 //
 
 #import "RobotData.hpp"
-#import <Foundation/Foundation.h>
 #include <algorithm>
-
-std::array<RobotData::Part, 3> RobotData::allParts() {
-    return {
-        Part::Head, Part::Body, Part::Backpack
-    };
-}
-
-std::array<RobotData::Material, 4> RobotData::allMaterials() {
-    return {
-        Material::Metal, Material::Rainbow, Material::Plastic, Material::Mesh
-    };
-}
-
-std::array<RobotData::MaterialColor, 15> RobotData::allMaterialColors() {
-    return {
-        MaterialColor::MetalPink,
-        MaterialColor::MetalOrange,
-        MaterialColor::MetalGreen,
-        MaterialColor::MetalBlue,
-        MaterialColor::Beige,
-        MaterialColor::RainbowRed,
-        MaterialColor::Rose,
-        MaterialColor::Black,
-        MaterialColor::PlasticBlue,
-        MaterialColor::PlasticPink,
-        MaterialColor::PlasticOrange,
-        MaterialColor::PlasticGreen,
-        MaterialColor::MeshGray,
-        MaterialColor::MeshOrange,
-        MaterialColor::MeshYellow
-    };
-}
-
-std::array<RobotData::LightColor, 8> RobotData::allLightColors() {
-    return {
-        LightColor::Red,
-        LightColor::Yellow,
-        LightColor::Green,
-        LightColor::Blue,
-        LightColor::Purple,
-        LightColor::White,
-        LightColor::PurpleBlue,
-        LightColor::Rainbow
-    };
-}
-
-std::array<RobotData::MaterialColor, 4> RobotData::getMaterialColorsByMaterial(RobotData::Material material) {
-    switch (material) {
-        case Material::Metal:
-            return {
-                MaterialColor::MetalPink,
-                MaterialColor::MetalOrange,
-                MaterialColor::MetalGreen,
-                MaterialColor::MetalBlue
-            };
-        case Material::Rainbow:
-            return {
-                MaterialColor::Beige,
-                MaterialColor::RainbowRed,
-                MaterialColor::Rose,
-                MaterialColor::Black
-            };
-        case Material::Plastic:
-            return {
-                MaterialColor::PlasticBlue,
-                MaterialColor::PlasticPink,
-                MaterialColor::PlasticOrange,
-                MaterialColor::PlasticGreen
-            };
-        case Material::Mesh:
-            return {
-                MaterialColor::MeshGray,
-                MaterialColor::MeshOrange,
-                MaterialColor::MeshYellow,
-                MaterialColor::Black
-            };
-        default:
-            abort();
-    }
-}
 
 RobotData::RobotData() {
     face = Face::Circle;
@@ -137,6 +56,10 @@ RobotData::Face RobotData::getFace() const {
 }
 
 void RobotData::setSelectedIndexByPart(Part part, swift::Int selectedIndex) {
+    auto indices = RobotData::getIndicesByPart(part);
+    auto it = std::find(indices.cbegin(), indices.cend(), selectedIndex);
+    assert(it != indices.end());
+    
     selectedIndicesByPart[part] = selectedIndex;
 }
 
@@ -155,7 +78,7 @@ RobotData::Material RobotData::getMaterialByPart(Part part) const {
 void RobotData::setMaterialColorByPart(MaterialColor materialColor, Part part) {
     auto arr = getMaterialColorsByMaterial(getMaterialByPart(part));
     auto it = std::find(arr.cbegin(), arr.cend(), materialColor);
-    assert(it == arr.end());
+    assert(it != arr.end());
     
     materialColorsByPart[part] = materialColor;
 }

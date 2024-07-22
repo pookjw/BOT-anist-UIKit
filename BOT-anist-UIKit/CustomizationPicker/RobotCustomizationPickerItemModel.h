@@ -6,11 +6,22 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "RobotCustomizationPickerSectionModel.h"
+#import "RobotData.hpp"
+#include <variant>
+#include "swiftToCxx.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RobotCustomizationPickerItemModel : NSObject
+typedef std::variant<swift::Int, RobotData::Face, RobotData::Material, RobotData::MaterialColor, RobotData::LightColor> RobotCustomizationPickerItemModelVariant;
 
+__attribute__((objc_direct_members))
+@interface RobotCustomizationPickerItemModel : NSObject
+@property (assign, readonly, nonatomic) RobotCustomizationPickerItemModelVariant variant;
+@property (retain, readonly, nonatomic) RobotCustomizationPickerSectionModel *sectionModel;
++ (instancetype)new NS_UNAVAILABLE;
+- (instancetype)init NS_UNAVAILABLE;
+- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel;
 @end
 
 NS_ASSUME_NONNULL_END

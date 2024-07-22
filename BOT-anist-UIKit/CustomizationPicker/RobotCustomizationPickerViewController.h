@@ -9,7 +9,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface RobotCustomizationPickerViewController : UICollectionViewController
+@interface RobotCustomizationPickerViewController : UIViewController
 
 @end
 

@@ -8,9 +8,11 @@
 #ifndef Robot_hpp
 #define Robot_hpp
 
-#include <stdio.h>
+#import <Foundation/Foundation.h>
 #include <unordered_map>
 #include <array>
+#include <vector>
+#include <ranges>
 #include "swiftToCxx.h"
 
 class RobotData {
@@ -19,18 +21,45 @@ public:
         Head, Body, Backpack
     };
     
-    static std::array<Part, 3> allParts();
+    constexpr static std::array<Part, 3> getAllParts() {
+        return {
+            Part::Head,
+            Part::Body,
+            Part::Backpack
+        };
+    };
+    
+    constexpr static std::vector<swift::Int> getIndicesByPart(Part part) {
+        // {1, 2, 3}
+        return std::views::iota(1, 4) |
+        std::ranges::to<std::vector<swift::Int>>();
+    }
     
     enum class Material {
         Metal, Rainbow, Plastic, Mesh
     };
     
-    static std::array<Material, 4> allMaterials();
+    constexpr static std::array<Material, 4> getAllMaterials() {
+        return {
+            Material::Metal,
+            Material::Rainbow,
+            Material::Plastic,
+            Material::Mesh
+        };
+    };
     
     enum class Face {
         Square,
         Circle,
         Heart
+    };
+    
+    constexpr static std::array<Face, 3> getAllFaces() {
+        return {
+            Face::Square,
+            Face::Circle,
+            Face::Heart
+        };
     };
     
     enum class MaterialColor {
@@ -51,7 +80,25 @@ public:
         MeshYellow
     };
     
-    static std::array<MaterialColor, 15> allMaterialColors();
+    constexpr static std::array<MaterialColor, 15> getAllMaterialColors() {
+        return {
+            MaterialColor::MetalPink,
+            MaterialColor::MetalOrange,
+            MaterialColor::MetalGreen,
+            MaterialColor::MetalBlue,
+            MaterialColor::Beige,
+            MaterialColor::RainbowRed,
+            MaterialColor::Rose,
+            MaterialColor::Black,
+            MaterialColor::PlasticBlue,
+            MaterialColor::PlasticPink,
+            MaterialColor::PlasticOrange,
+            MaterialColor::PlasticGreen,
+            MaterialColor::MeshGray,
+            MaterialColor::MeshOrange,
+            MaterialColor::MeshYellow
+        };
+    };
     
     enum class LightColor {
         Red,
@@ -64,11 +111,57 @@ public:
         Rainbow
     };
     
-    static std::array<LightColor, 8> allLightColors();
+    constexpr static std::array<LightColor, 8> getAllLightColors() {
+        return {
+            LightColor::Red,
+            LightColor::Yellow,
+            LightColor::Green,
+            LightColor::Blue,
+            LightColor::Purple,
+            LightColor::White,
+            LightColor::PurpleBlue,
+            LightColor::Rainbow
+        };
+    }
     
     //
     
-    static std::array<MaterialColor, 4> getMaterialColorsByMaterial(Material material);
+    constexpr static std::array<MaterialColor, 4> getMaterialColorsByMaterial(Material material) {
+        switch (material) {
+            case Material::Metal:
+                return {
+                    MaterialColor::MetalPink,
+                    MaterialColor::MetalOrange,
+                    MaterialColor::MetalGreen,
+                    MaterialColor::MetalBlue
+                };
+            case Material::Rainbow:
+                return {
+                    MaterialColor::Beige,
+                    MaterialColor::RainbowRed,
+                    MaterialColor::Rose,
+                    MaterialColor::Black
+                };
+            case Material::Plastic:
+                return {
+                    MaterialColor::PlasticBlue,
+                    MaterialColor::PlasticPink,
+                    MaterialColor::PlasticOrange,
+                    MaterialColor::PlasticGreen
+                };
+            case Material::Mesh:
+                return {
+                    MaterialColor::MeshGray,
+                    MaterialColor::MeshOrange,
+                    MaterialColor::MeshYellow,
+                    MaterialColor::Black
+                };
+            default:
+                abort();
+        }
+    };
+    
+    //
     
     RobotData();
     

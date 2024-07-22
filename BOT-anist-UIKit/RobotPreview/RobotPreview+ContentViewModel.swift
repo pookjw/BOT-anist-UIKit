@@ -49,7 +49,7 @@ extension RobotPreview {
             //
             
             try await withThrowingDiscardingTaskGroup { taskGroup in
-                RobotData.allParts().forEach { part in
+                RobotData.getAllParts().forEach { part in
                     taskGroup.addTask {
                         let partEntity = try await loader.entity(forPart: part, robotData: robotData)
                         await creationRoot.addChild(partEntity)

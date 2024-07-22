@@ -128,7 +128,7 @@ actor RobotLoader {
         if part == .Backpack {
             let bodyIndex = robotData.getSelectedIndexByPart(.Body)
             
-            for index in 1...3 {
+            RobotData.getIndicesByPart(part).forEach { index in
                 let isEnabled = bodyIndex == index
                 entity.findEntity(named: "strap_B\(index)")!.isEnabled = isEnabled
             }
@@ -167,8 +167,8 @@ extension RobotLoader {
 extension RobotLoader {
     private func robotParts() async throws -> [RobotPartResult] {
         try await withThrowingTaskGroup(of: RobotPartResult.self, returning: [RobotPartResult].self) { taskGroup in
-            RobotData.allParts().forEach { robotPart in
-                for index in 1...3 {
+            RobotData.getAllParts().forEach { robotPart in
+                RobotData.getIndicesByPart(robotPart).forEach { index in
                     taskGroup.addTask {
                         let entityName: String
                         let sceneName: String
@@ -226,7 +226,7 @@ extension RobotLoader {
     
     private func robotMaterials() async throws -> [RobotMaterialResult] {
         try await withThrowingTaskGroup(of: RobotMaterialResult.self, returning: [RobotMaterialResult].self) { taskGroup in
-            RobotData.allMaterials().forEach { material in
+            RobotData.getAllMaterials().forEach { material in
                 taskGroup.addTask { @MainActor in
                     let sceneName: String
                     
@@ -246,10 +246,10 @@ extension RobotLoader {
                     let scene = try await Entity(named: sceneName, in: BOTanistAssetsBundle)
                     var materialsByPart: [RobotData.Part: [ShaderGraphMaterial]] = [:]
                     
-                    RobotData.allParts().forEach { part in
+                    RobotData.getAllParts().forEach { part in
                         let suffix: String = part.suffix
                         
-                        for index in 1...3 {
+                        RobotData.getIndicesByPart(part).forEach { index in
                             let entityName = "\(suffix)\(index)"
                             let entity = scene.findEntity(named: entityName)!
                             let modelComponent = entity.components[ModelComponent.self]!

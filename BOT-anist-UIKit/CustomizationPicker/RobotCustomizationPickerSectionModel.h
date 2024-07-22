@@ -10,10 +10,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 typedef NS_ENUM(NSUInteger, RobotCustomizationPickerSectionModelType) {
-    RobotCustomizationPickerSectionModelTypeHead,
-    RobotCustomizationPickerSectionModelTypeBody,
-    RobotCustomizationPickerSectionModelTypeBackpack,
-    RobotCustomizationPickerSectionModelTypeEyeShape,
+    RobotCustomizationPickerSectionModelTypePartIndex,
+    RobotCustomizationPickerSectionModelTypeFace,
     RobotCustomizationPickerSectionModelTypeMaterial,
     RobotCustomizationPickerSectionModelTypeMaterialColor,
     RobotCustomizationPickerSectionModelTypeLightColor
