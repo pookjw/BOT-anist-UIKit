@@ -141,7 +141,7 @@ actor RobotLoader {
         await robotParts
             .first { $0.part == part && $0.index == index }!
             .entity
-            .clone(recursive: true)
+//            .clone(recursive: true)
     }
     
     private func shaderGraphMaterial(forMaterial material: RobotData.Material, part: RobotData.Part, index: Int) -> ShaderGraphMaterial {

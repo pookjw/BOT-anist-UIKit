@@ -10,7 +10,8 @@ import BOTanistAssets
 @_expose(Cxx, "mainHandler")
 public func mainHandler() {
     MainActor.assumeIsolated {
-        // TODO: JointPinComponent, JointPinSystem
         PlantComponent.registerComponent()
+        JointPinComponent.registerComponent()
+        JointPinSystem.registerSystem()
     }
 }

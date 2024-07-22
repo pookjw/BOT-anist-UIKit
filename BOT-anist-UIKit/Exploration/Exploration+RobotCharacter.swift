@@ -74,9 +74,25 @@ extension Exploration {
             
             //
             
+            let skeleton = bodyEntity.findEntity(named: "rig_grp") as! ModelEntity
+            let headJointIndices = Self.getJointHierachy(skeleton: skeleton, jointName: "head")
+            let backpackJointIndices = Self.getJointHierachy(skeleton: skeleton, jointName: "backpack")
+            let headOffset = skeleton.pins["head"]!.position * -1.0
+            let backbackOffset = skeleton.pins["backpack"]!.position * -1.0
             
-            // TODO: Skeleton : WWDC에 하는 방법 있음
-//            let skeleton = bodyEntity.findEntity(named: "rig_grp") as! ModelEntity
+            skeleton
+                .components
+                .set(
+                    JointPinComponent(
+                        headEntity: headEntity,
+                        headJointIndices: headJointIndices,
+                        backpackEntity: backpackEntity,
+                        backpackJointIndices: backpackJointIndices,
+                        bodyEntity: bodyEntity,
+                        headOffset: Transform(translation: headOffset).matrix,
+                        backpackOffset: Transform(translation: backbackOffset).matrix
+                    )
+                )
             
             //
             
@@ -134,5 +150,24 @@ extension Exploration {
             bodyEntity.components.set(RobotLoader.AnimationStateComponent(animationState: animationState))
             
         }
+    }
+}
+
+extension Exploration.RobotCharacter {
+    private static func getJointHierachy(skeleton: ModelEntity, jointName: String) -> [Int] {
+        let jointPath = skeleton
+            .jointNames
+            .first(where: { $0.hasSuffix(jointName) })!
+        
+        var components = jointPath.components(separatedBy: "/")
+        var indices: [Int] = []
+        
+        while !components.isEmpty {
+            let path = components.joined(separator: "/")
+            indices.append(skeleton.jointNames.firstIndex(of: path)!)
+            components.removeLast()
+        }
+        
+        return indices
     }
 }
