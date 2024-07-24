@@ -77,22 +77,23 @@ extension Exploration {
             let skeleton = bodyEntity.findEntity(named: "rig_grp") as! ModelEntity
             let headJointIndices = Self.getJointHierachy(skeleton: skeleton, jointName: "head")
             let backpackJointIndices = Self.getJointHierachy(skeleton: skeleton, jointName: "backpack")
-            let headOffset = skeleton.pins["head"]!.position * -1.0
-            let backbackOffset = skeleton.pins["backpack"]!.position * -1.0
             
-            skeleton
-                .components
-                .set(
-                    JointPinComponent(
-                        headEntity: headEntity,
-                        headJointIndices: headJointIndices,
-                        backpackEntity: backpackEntity,
-                        backpackJointIndices: backpackJointIndices,
-                        bodyEntity: bodyEntity,
-                        headOffset: Transform(translation: headOffset).matrix,
-                        backpackOffset: Transform(translation: backbackOffset).matrix
+            if let headOffset = skeleton.pins["head"]?.position,
+               let backbackOffset = skeleton.pins["backpack"]?.position {
+                skeleton
+                    .components
+                    .set(
+                        JointPinComponent(
+                            headEntity: headEntity,
+                            headJointIndices: headJointIndices,
+                            backpackEntity: backpackEntity,
+                            backpackJointIndices: backpackJointIndices,
+                            bodyEntity: bodyEntity,
+                            headOffset: Transform(translation: headOffset * -1.0).matrix,
+                            backpackOffset: Transform(translation: backbackOffset * -1.0).matrix
+                        )
                     )
-                )
+            }
             
             //
             

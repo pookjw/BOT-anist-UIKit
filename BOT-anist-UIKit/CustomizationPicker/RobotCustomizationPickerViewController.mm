@@ -19,6 +19,7 @@ __attribute__((objc_direct_members))
 @property (retain, readonly, nonatomic) UICollectionView *collectionView;
 @property (retain, readonly, nonatomic) UISegmentedControl *segmentedControl;
 @property (retain, readonly, nonatomic) UICollectionViewCellRegistration *cellRegistration;
+@property (assign, nonatomic) RobotData::Part selectedPart;
 @end
 
 @implementation RobotCustomizationPickerViewController
@@ -105,7 +106,7 @@ __attribute__((objc_direct_members))
                                                image:nil
                                           identifier:identifier
                                              handler:^(__kindof UIAction * _Nonnull action) {
-            // TODO: selectedMaterial
+            
             [viewModel updateDataSourceWithSelectedPart:part selectedMaterial:RobotData::Material::Metal];
         }];
         
@@ -130,8 +131,7 @@ __attribute__((objc_direct_members))
         
         if (auto selectedPartIndexPtr = std::get_if<swift::Int>(&variant)) {
             UIListContentConfiguration *contentConfiguration = [cell defaultContentConfiguration];
-            // TODO: selectedPart
-            contentConfiguration.image = [RobotCustomizationPickerViewController imageFromPartIndex:*selectedPartIndexPtr part:RobotData::Part::Head];
+            contentConfiguration.image = [RobotCustomizationPickerViewController imageFromPartIndex:*selectedPartIndexPtr part:itemModel.selectedPart];
             contentConfiguration.imageProperties.maximumSize = CGSizeMake(80., 80.);
             cell.contentConfiguration = contentConfiguration;
             cell.backgroundConfiguration = [cell defaultBackgroundConfiguration];
@@ -164,6 +164,13 @@ __attribute__((objc_direct_members))
     
     _cellRegistration = [cellRegistration retain];
     return cellRegistration;
+}
+
+- (RobotData::Part)selectedPart {
+    UISegmentedControl *segmentedControl = self.segmentedControl;
+    UIAction *action = [segmentedControl actionForSegmentAtIndex:segmentedControl.selectedSegmentIndex];
+    
+    return [RobotCustomizationPickerViewController partFromIdentifier:action.identifier];
 }
 
 - (RobotCustomizationPickerViewModelDataSource *)makeDataSource __attribute__((objc_direct)) {
@@ -199,6 +206,18 @@ __attribute__((objc_direct_members))
             return @"backpack";
         default:
             abort();
+    }
+}
+
++ (RobotData::Part)partFromIdentifier:(NSString *)identifier __attribute__((objc_direct)) {
+    if ([identifier isEqualToString:@"head"]) {
+        return RobotData::Part::Head;
+    } else if ([identifier isEqualToString:@"body"]) {
+        return RobotData::Part::Body;
+    } else if ([identifier isEqualToString:@"backpack"]) {
+        return RobotData::Part::Backpack;
+    } else {
+        abort();
     }
 }
 

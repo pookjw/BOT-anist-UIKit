@@ -19,9 +19,10 @@ __attribute__((objc_direct_members))
 @interface RobotCustomizationPickerItemModel : NSObject
 @property (assign, readonly, nonatomic) RobotCustomizationPickerItemModelVariant variant;
 @property (retain, readonly, nonatomic) RobotCustomizationPickerSectionModel *sectionModel;
+@property (assign, readonly, nonatomic) RobotData::Part selectedPart;
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel;
+- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel selectedPart:(RobotData::Part)selectedPart;
 @end
 
 NS_ASSUME_NONNULL_END

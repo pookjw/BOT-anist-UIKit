@@ -9,10 +9,11 @@
 
 @implementation RobotCustomizationPickerItemModel
 
-- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel {
+- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel selectedPart:(RobotData::Part)selectedPart {
     if (self = [super init]) {
         _variant = variant;
         _sectionModel = [sectionModel retain];
+        _selectedPart = selectedPart;
     }
     
     return self;
@@ -32,14 +33,15 @@
         auto casted = static_cast<decltype(self)>(other);
         
         return _variant == casted->_variant &&
-        [_sectionModel isEqual:casted->_sectionModel];
+        [_sectionModel isEqual:casted->_sectionModel] &&
+        _selectedPart == casted->_selectedPart;
     }
 }
 
 - (NSUInteger)hash {
 //    return std::hash<RobotCustomizationPickerItemModelVariant>{}(_variant) ^
 //    _sectionModel.hash;
-    return std::hash<RobotCustomizationPickerItemModelVariant>{}(_variant);
+    return std::hash<RobotCustomizationPickerItemModelVariant>{}(_variant) ^ std::hash<RobotData::Part>{}(_selectedPart);
 }
 
 @end

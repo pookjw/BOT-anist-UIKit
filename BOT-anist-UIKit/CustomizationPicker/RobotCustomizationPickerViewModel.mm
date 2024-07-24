@@ -13,6 +13,7 @@ __attribute__((objc_direct_members))
 @interface RobotCustomizationPickerViewModel ()
 @property (retain, readonly, nonatomic) RobotCustomizationPickerViewModelDataSource *dataSource;
 @property (retain, readonly, nonatomic) dispatch_queue_t queue;
+@property (assign, nonatomic) RobotData robotData;
 @end
 
 @implementation RobotCustomizationPickerViewModel
@@ -38,7 +39,7 @@ __attribute__((objc_direct_members))
     [super dealloc];
 }
 
-- (void)updateDataSourceWithSelectedPart:(RobotData::Part)part selectedMaterial:(RobotData::Material)material {
+- (void)updateDataSourceWithSelectedPart:(RobotData::Part)part selectedMaterial:(RobotData::Material)material __attribute__((objc_direct)) {
     dispatch_async(self.queue, ^{
         NSDiffableDataSourceSnapshot<RobotCustomizationPickerSectionModel *,RobotCustomizationPickerItemModel *> *snapshot = [NSDiffableDataSourceSnapshot new];
         
@@ -49,8 +50,8 @@ __attribute__((objc_direct_members))
         [snapshot appendSectionsWithIdentifiers:@[partIndexSectionModel]];
         
         auto partIndexItemModelsVector = RobotData::getIndicesByPart(part) |
-        std::views::transform([partIndexSectionModel](swift::Int index) {
-            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:index sectionModel:partIndexSectionModel];
+        std::views::transform([part, partIndexSectionModel](swift::Int index) {
+            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:index sectionModel:partIndexSectionModel selectedPart:part];
             return [itemModel autorelease];
         }) |
         std::ranges::to<std::vector>();
@@ -70,8 +71,8 @@ __attribute__((objc_direct_members))
             [snapshot appendSectionsWithIdentifiers:@[faceSectionModel]];
             
             auto faceItemModelsVector = RobotData::getAllFaces() |
-            std::views::transform([faceSectionModel](RobotData::Face face) {
-                RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:face sectionModel:faceSectionModel];
+            std::views::transform([part, faceSectionModel](RobotData::Face face) {
+                RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:face sectionModel:faceSectionModel selectedPart:part];
                 return [itemModel autorelease];
             }) |
             std::ranges::to<std::vector>();
@@ -91,8 +92,8 @@ __attribute__((objc_direct_members))
         [snapshot appendSectionsWithIdentifiers:@[materialSectionModel]];
         
         auto materialItemModelsVector = RobotData::getAllMaterials() |
-        std::views::transform([materialSectionModel](RobotData::Material material) {
-            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:material sectionModel:materialSectionModel];
+        std::views::transform([part, materialSectionModel](RobotData::Material material) {
+            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:material sectionModel:materialSectionModel selectedPart:part];
             return [itemModel autorelease];
         }) |
         std::ranges::to<std::vector>();
@@ -111,8 +112,8 @@ __attribute__((objc_direct_members))
         [snapshot appendSectionsWithIdentifiers:@[materialColorSectionModel]];
         
         auto materialColorItemModelsVector = RobotData::getMaterialColorsByMaterial(material) |
-        std::views::transform([materialColorSectionModel](RobotData::MaterialColor materialColor) {
-            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:materialColor sectionModel:materialColorSectionModel];
+        std::views::transform([part, materialColorSectionModel](RobotData::MaterialColor materialColor) {
+            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:materialColor sectionModel:materialColorSectionModel selectedPart:part];
             return [itemModel autorelease];
         }) |
         std::ranges::to<std::vector>();
@@ -131,8 +132,8 @@ __attribute__((objc_direct_members))
         [snapshot appendSectionsWithIdentifiers:@[lightColorSectionModel]];
         
         auto lightColorsVector = RobotData::getAllLightColors() |
-        std::views::transform([lightColorSectionModel](RobotData::LightColor lightColor) {
-            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:lightColor sectionModel:lightColorSectionModel];
+        std::views::transform([part, lightColorSectionModel](RobotData::LightColor lightColor) {
+            RobotCustomizationPickerItemModel *itemModel = [[RobotCustomizationPickerItemModel alloc] initWithVariant:lightColor sectionModel:lightColorSectionModel selectedPart:part];
             return [itemModel autorelease];
         }) |
         std::ranges::to<std::vector>();

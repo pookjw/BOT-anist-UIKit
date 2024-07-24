@@ -16,9 +16,15 @@ typedef UICollectionViewDiffableDataSource<RobotCustomizationPickerSectionModel 
 
 __attribute__((objc_direct_members))
 @interface RobotCustomizationPickerViewModel : NSObject
+@property (assign, readonly, nonatomic) RobotData robotData; // KVO-compliant
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithDataSource:(RobotCustomizationPickerViewModelDataSource *)dataSource;
+
+- (void)didChangeSelectedPart:(RobotData::Part)selectedPart;
+- (void)didChangeSelectedMaterial:(RobotData::Material)selectedMaterial;
+
+// to be hidden
 - (void)updateDataSourceWithSelectedPart:(RobotData::Part)part selectedMaterial:(RobotData::Material)material;
 @end
 

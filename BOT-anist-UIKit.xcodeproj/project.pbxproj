@@ -21,6 +21,7 @@
 		4F15FA3A2C4EA94E0083DCA7 /* mainHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15FA392C4EA94E0083DCA7 /* mainHandler.swift */; };
 		4F15FA3C2C4EB28B0083DCA7 /* JointPinComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15FA3B2C4EB28B0083DCA7 /* JointPinComponent.swift */; };
 		4F15FA3E2C4EB79E0083DCA7 /* JointPinSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F15FA3D2C4EB79E0083DCA7 /* JointPinSystem.swift */; };
+		4F1870622C50A62E00B3ACDB /* PlantAnimationProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F1870612C50A62E00B3ACDB /* PlantAnimationProvider.swift */; };
 		4F61D03C2C4D4A7800840A45 /* RobotLoader+AnimationState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F61D03B2C4D4A7800840A45 /* RobotLoader+AnimationState.swift */; };
 		4F6268BA2C4942AA00F19F50 /* RobotPreview+ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6268B92C4942AA00F19F50 /* RobotPreview+ContentView.swift */; };
 		4F6268BD2C49464400F19F50 /* RobotPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F6268BC2C49464400F19F50 /* RobotPreview.swift */; };
@@ -62,6 +63,7 @@
 		4F15FA392C4EA94E0083DCA7 /* mainHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = mainHandler.swift; sourceTree = "<group>"; };
 		4F15FA3B2C4EB28B0083DCA7 /* JointPinComponent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JointPinComponent.swift; sourceTree = "<group>"; };
 		4F15FA3D2C4EB79E0083DCA7 /* JointPinSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JointPinSystem.swift; sourceTree = "<group>"; };
+		4F1870612C50A62E00B3ACDB /* PlantAnimationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantAnimationProvider.swift; sourceTree = "<group>"; };
 		4F37EEF42C48175B00BEED2D /* BOT-anist-UIKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BOT-anist-UIKit-Bridging-Header.h"; sourceTree = "<group>"; };
 		4F61D03B2C4D4A7800840A45 /* RobotLoader+AnimationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RobotLoader+AnimationState.swift"; sourceTree = "<group>"; };
 		4F6268B92C4942AA00F19F50 /* RobotPreview+ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RobotPreview+ContentView.swift"; sourceTree = "<group>"; };
@@ -192,6 +194,7 @@
 				4FD6F65A2C4B9E0500FA4CC4 /* RobotData_Face+Index.swift */,
 				4FD6F6562C4B91B600FA4CC4 /* RobotData_MaterialColor+Index.swift */,
 				4FD6F6582C4B9BCC00FA4CC4 /* RobotData_LightColor+Index.swift */,
+				4F1870612C50A62E00B3ACDB /* PlantAnimationProvider.swift */,
 				4F6268BB2C49462400F19F50 /* RobotPreview */,
 				4F06593E2C4C03D600251655 /* Exploration */,
 			);
@@ -298,6 +301,7 @@
 				4F0ECBAA2C4813CF0077673A /* RobotCustomizationPickerSectionModel.mm in Sources */,
 				4F6801D12C46D8EE00EF97A9 /* SceneDelegate.mm in Sources */,
 				4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */,
+				4F1870622C50A62E00B3ACDB /* PlantAnimationProvider.swift in Sources */,
 				4F0659142C49725B00251655 /* RobotLoader.swift in Sources */,
 				4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm in Sources */,
 				4F06594E2C4CD1C200251655 /* Exploration+RobotCharacter.swift in Sources */,

@@ -21,10 +21,12 @@ extension Exploration {
         let explorationCamera: PerspectiveCamera
         
         @ObservationIgnored
-        var movementVector = SIMD3<Float>.zero
+        private var movementVector = SIMD3<Float>.zero
         
         @ObservationIgnored
-        var speedScale: Float = 1.0
+        private var speedScale: Float = 1.0
+        
+        private(set) var plantsCount = 0
         
 #if !os(visionOS)
         private(set) var environmentResource: EnvironmentResource?
@@ -45,7 +47,7 @@ extension Exploration {
         
         func load(robotData: RobotData) async throws {
 #if !os(visionOS)
-            environmentResource = try await makeEnvironmentResource()
+//            environmentResource = try await makeEnvironmentResource()
 #endif
             
             let explorationRoot = explorationRoot
@@ -172,12 +174,18 @@ extension Exploration.ContentViewModel {
             by: normalizedMovement * speed * speedScale * deltaTime,
             deltaTime: deltaTime,
             relativeTo: nil,
-            collisionHandler: { collision in
-                guard var plantComponent = collision.hitEntity.components[PlantComponent.self] else {
-                    return
+            collisionHandler: { [weak self] collision in
+                if var plantComponent = collision.hitEntity.components[PlantComponent.self] {
+                    if !plantComponent.interactedWith {
+                        plantComponent.interactedWith = true
+                        collision.hitEntity.components.set(plantComponent)
+                        
+                        self?.plantsCount += 1
+                        
+                        // TODO
+                    }
                 }
                 
-                print(plantComponent)
             }
         )
         
