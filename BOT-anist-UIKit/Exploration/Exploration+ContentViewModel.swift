@@ -21,12 +21,19 @@ extension Exploration {
         let explorationCamera: PerspectiveCamera
         
         @ObservationIgnored
+        private(set) var currentGrowAnimations: [PlantComponent.PlantTypeKey: AnimationPlaybackController] = [:]
+        
+        @ObservationIgnored
         private var movementVector = SIMD3<Float>.zero
         
         @ObservationIgnored
         private var speedScale: Float = 1.0
         
-        private(set) var plantsCount = 0
+        @ObservationIgnored
+        private var plantsFound = 0
+        
+        @ObservationIgnored
+        private var isCelebrating = false
         
 #if !os(visionOS)
         private(set) var environmentResource: EnvironmentResource?
@@ -49,6 +56,8 @@ extension Exploration {
 #if !os(visionOS)
 //            environmentResource = try await makeEnvironmentResource()
 #endif
+            
+            try await PlantAnimationProvider.shared.load()
             
             let explorationRoot = explorationRoot
             
@@ -85,7 +94,30 @@ extension Exploration {
         }
         
         func handleAnimationStopEvent(_ event: AnimationEvents.PlaybackTerminated) {
-            // TODO
+            if plantsFound == PlantComponent.PlantTypeKey.allCases.count && !isCelebrating {
+                guard !currentGrowAnimations.values.contains(where: { $0.isPlaying }) else {
+                    return
+                }
+                
+                isCelebrating = true
+                
+                var blendEntities: [Entity: PlantComponent.PlantTypeKey] = [:]
+                
+                explorationRoot.forEachDescendant(withComponent: PlantComponent.self) { plantEntity, plantComponent in
+                    plantEntity.forEachDescendant(withComponent: BlendShapeWeightsComponent.self) { blendEntity, blendComponent in
+                        blendEntities[blendEntity] = plantComponent.plantType
+                        return true
+                    }
+                    return true
+                }
+                
+                Task { [blendEntities] in
+                    for (blendEntity, plantType) in blendEntities {
+                        let celebateAnimation = await PlantAnimationProvider.shared.celebrateAnimation(for: plantType)
+                        blendEntity.playAnimation(celebateAnimation.repeat())
+                    }
+                }
+            }
         }
         
         func handleGestureChanged(_ value: DragGesture.Value) {
@@ -104,7 +136,10 @@ extension Exploration {
         func handleGestureEnded(_ value: DragGesture.Value) {
             movementVector = .zero
             
-            robotCharacter?.playAnimation(.walkEnd)
+            if let robotCharacter,
+               robotCharacter.animationState != .celebrate {
+                robotCharacter.playAnimation(.walkEnd)
+            }
         }
     }
 }
@@ -174,18 +209,28 @@ extension Exploration.ContentViewModel {
             by: normalizedMovement * speed * speedScale * deltaTime,
             deltaTime: deltaTime,
             relativeTo: nil,
-            collisionHandler: { [weak self] collision in
+            collisionHandler: { [self] collision in
                 if var plantComponent = collision.hitEntity.components[PlantComponent.self] {
                     if !plantComponent.interactedWith {
                         plantComponent.interactedWith = true
                         collision.hitEntity.components.set(plantComponent)
                         
-                        self?.plantsCount += 1
+                        plantsFound += 1
                         
-                        // TODO
+                        Task { [plantComponent] in
+                            let growAnimation = await PlantAnimationProvider.shared.growAnimation(for: plantComponent.plantType)
+                            collision.hitEntity.forEachDescendant(withComponent: BlendShapeWeightsComponent.self) { child, component in
+                                let playbackController = child.playAnimation(growAnimation)
+                                currentGrowAnimations[plantComponent.plantType] = playbackController
+                                return true
+                            }
+                        }
                     }
                 }
                 
+                if self.plantsFound == PlantComponent.PlantTypeKey.allCases.count && robotCharacter.animationState != .celebrate {
+                    robotCharacter.playAnimation(.celebrate)
+                }
             }
         )
         

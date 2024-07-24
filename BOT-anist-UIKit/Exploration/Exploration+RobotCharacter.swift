@@ -17,6 +17,13 @@ extension Exploration {
         let bodyEntity: Entity
         private let backpackEntity: Entity
         
+        var animationState: RobotLoader.AnimationState {
+            guard let animationState = animationControllers.first(where: { $0.value.isPlaying })?.key else {
+                return .idle
+            }
+            
+            return animationState
+        }
         
         var isRotatingToFaceFront = false // TODO
         private var animationControllers: [RobotLoader.AnimationState: AnimationPlaybackController] = [:]
@@ -105,6 +112,8 @@ extension Exploration {
         }
         
         func playAnimation(_ animationState: RobotLoader.AnimationState) {
+            print("New animationState: \(animationState)")
+            
             let libComponent = bodyEntity.components[AnimationLibraryComponent.self]!
             let animation = libComponent[animationState.rawValue]!
             let rigGroup = bodyEntity.findEntity(named: "rig_grp")!

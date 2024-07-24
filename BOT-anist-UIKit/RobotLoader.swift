@@ -15,8 +15,8 @@ actor RobotLoader {
     private var robotParts: [RobotPartResult] = []
     private var robotMaterials: [RobotMaterialResult] = []
     
-    private(set) var isLoaded = false
-    let isLoadedStream: AsyncStream<Bool>
+    private var isLoaded = false
+    private let isLoadedStream: AsyncStream<Bool>
     private let isLoadedContinuation: AsyncStream<Bool>.Continuation
     private var isLoading = false
     
@@ -53,8 +53,8 @@ actor RobotLoader {
             self.robotMaterials = robotMaterials
             
             isLoaded = true
-            isLoadedContinuation.yield(false)
             isLoading = false
+            isLoadedContinuation.yield(false)
         } catch {
             isLoading = false
             throw error
@@ -63,6 +63,7 @@ actor RobotLoader {
     
     @MainActor
     func entity(forPart part: RobotData.Part, robotData: RobotData) async throws -> Entity {
+        
         let entity = await self.entity(forPart: part, index: robotData.getSelectedIndexByPart(part))
         entity.components.set(InputTargetComponent())
         
