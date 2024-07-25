@@ -6,13 +6,13 @@
 //
 
 #import "RobotCustomizationSplitViewController.h"
-#import "RobotCustomizationPickerViewController.h"
+#import "RobotCustomizationPickerViewController.hpp"
 #import "RobotPreviewViewController.h"
 #import <objc/message.h>
 #import <objc/runtime.h>
 
 __attribute__((objc_direct_members))
-@interface RobotCustomizationSplitViewController () <UISplitViewControllerDelegate>
+@interface RobotCustomizationSplitViewController () <UISplitViewControllerDelegate, RobotCustomizationPickerViewControllerDelegate>
 @property (retain, nonatomic, readonly) RobotCustomizationPickerViewController *pickerViewController;
 @property (retain, nonatomic, readonly) RobotPreviewViewController *previewViewController;
 @end
@@ -59,6 +59,7 @@ __attribute__((objc_direct_members))
     if (auto pickerViewController = _pickerViewController) return pickerViewController;
     
     RobotCustomizationPickerViewController *pickerViewController = [RobotCustomizationPickerViewController new];
+    pickerViewController.delegate = self;
     
     _pickerViewController = [pickerViewController retain];
     return [pickerViewController autorelease];
@@ -71,6 +72,10 @@ __attribute__((objc_direct_members))
     
     _previewViewController = [previewViewController retain];
     return [previewViewController autorelease];
+}
+
+- (void)robotCustomizationPickerViewController:(RobotCustomizationPickerViewController *)viewController didChangeRobotData:(RobotData)robotData {
+    [self.previewViewController updateRobotData:robotData];
 }
 
 @end

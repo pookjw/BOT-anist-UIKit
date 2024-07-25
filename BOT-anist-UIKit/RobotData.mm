@@ -38,6 +38,7 @@ RobotData::RobotData() {
 
 bool RobotData::operator==(const RobotData &other) const {
     return this->face == other.face &&
+    this->selectedIndicesByPart == other.selectedIndicesByPart &&
     this->materialsByPart == other.materialsByPart &&
     this->materialColorsByPart == other.materialColorsByPart &&
     this->lightColorsByPart == other.lightColorsByPart;

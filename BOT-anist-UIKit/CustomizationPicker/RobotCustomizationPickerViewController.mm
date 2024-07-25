@@ -5,21 +5,20 @@
 //  Created by Jinwoo Kim on 7/17/24.
 //
 
-#import "RobotCustomizationPickerViewController.h"
+#import "RobotCustomizationPickerViewController.hpp"
 #import "RobotCustomizationPickerViewModel.h"
-#import "RobotData.hpp"
 #import <objc/message.h>
 #import <objc/runtime.h>
 #include <ranges>
 #include <vector>
 
 __attribute__((objc_direct_members))
-@interface RobotCustomizationPickerViewController ()
+@interface RobotCustomizationPickerViewController () <UICollectionViewDelegate>
 @property (retain, readonly, nonatomic) RobotCustomizationPickerViewModel *viewModel;
 @property (retain, readonly, nonatomic) UICollectionView *collectionView;
 @property (retain, readonly, nonatomic) UISegmentedControl *segmentedControl;
 @property (retain, readonly, nonatomic) UICollectionViewCellRegistration *cellRegistration;
-@property (assign, nonatomic) RobotData::Part selectedPart;
+@property (assign, readonly, nonatomic) RobotData::Part selectedPart;
 @end
 
 @implementation RobotCustomizationPickerViewController
@@ -29,6 +28,8 @@ __attribute__((objc_direct_members))
 @synthesize cellRegistration = _cellRegistration;
 
 - (void)dealloc {
+    [NSNotificationCenter.defaultCenter removeObserver:self];
+    
     [_viewModel release];
     [_collectionView release];
     [_segmentedControl release];
@@ -74,6 +75,11 @@ __attribute__((objc_direct_members))
     
     RobotCustomizationPickerViewModel *viewModel = [[RobotCustomizationPickerViewModel alloc] initWithDataSource:[self makeDataSource]];
     
+    [NSNotificationCenter.defaultCenter addObserver:self 
+                                           selector:@selector(receivedDidChangeRobotDataNotification:)
+                                               name:RobotCustomizationPickerViewModelRobotDataDidChangeNotificationName
+                                             object:viewModel];
+    
     _viewModel = [viewModel retain];
     return [viewModel autorelease];
 }
@@ -87,6 +93,7 @@ __attribute__((objc_direct_members))
     [listConfiguration release];
     
     UICollectionView *collectionView = [[UICollectionView alloc] initWithFrame:CGRectNull collectionViewLayout:collectionViewLayout];
+    collectionView.delegate = self;
     
     _collectionView = [collectionView retain];
     return [collectionView autorelease];
@@ -107,7 +114,7 @@ __attribute__((objc_direct_members))
                                           identifier:identifier
                                              handler:^(__kindof UIAction * _Nonnull action) {
             
-            [viewModel updateDataSourceWithSelectedPart:part selectedMaterial:RobotData::Material::Metal];
+            [viewModel updateDataSourceWithSelectedPart:part];
         }];
         
         return action;
@@ -160,6 +167,14 @@ __attribute__((objc_direct_members))
         } else {
             abort();
         }
+        
+        if (itemModel.isSelected) {
+            UICellAccessoryCheckmark *checkmark = [UICellAccessoryCheckmark new];
+            cell.accessories = @[checkmark];
+            [checkmark release];
+        } else {
+            cell.accessories = @[];
+        }
     }];
     
     _cellRegistration = [cellRegistration retain];
@@ -181,6 +196,22 @@ __attribute__((objc_direct_members))
     }];
     
     return [dataSource autorelease];
+}
+
+- (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
+    [collectionView deselectItemAtIndexPath:indexPath animated:YES];
+    [self.viewModel handleSelectedIndexPath:indexPath];
+}
+
+- (void)receivedDidChangeRobotDataNotification:(NSNotification *)notification {
+    NSData *data = notification.userInfo[RobotCustomizationPickerViewModelRobotDataKey];
+    assert(data.length == sizeof(RobotData));
+    
+    const RobotData robotData = *reinterpret_cast<const RobotData *>(data.bytes);
+    
+    dispatch_async(dispatch_get_main_queue(), ^{
+        [self.delegate robotCustomizationPickerViewController:self didChangeRobotData:robotData];
+    });
 }
 
 + (NSString *)stringFromPart:(RobotData::Part)part __attribute__((objc_direct)) {

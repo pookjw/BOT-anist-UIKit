@@ -20,9 +20,10 @@ __attribute__((objc_direct_members))
 @property (assign, readonly, nonatomic) RobotCustomizationPickerItemModelVariant variant;
 @property (retain, readonly, nonatomic) RobotCustomizationPickerSectionModel *sectionModel;
 @property (assign, readonly, nonatomic) RobotData::Part selectedPart;
+@property (assign, nonatomic, getter=isSelected) BOOL selected;
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
-- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel selectedPart:(RobotData::Part)selectedPart;
+- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel selectedPart:(RobotData::Part)selectedPart selected:(BOOL)selected;
 @end
 
 NS_ASSUME_NONNULL_END

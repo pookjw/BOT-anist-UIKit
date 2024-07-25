@@ -57,6 +57,10 @@ __attribute__((objc_direct_members))
                                              object:nil];
 }
 
+- (void)updateRobotData:(RobotData)robotData {
+    BOT_anist_UIKit::updateRobotPreviewHostingController(self.hostingController, robotData);
+}
+
 - (void)foo:(NSNotification *)notification {
     __kindof UIViewController *viewController = notification.object;
     

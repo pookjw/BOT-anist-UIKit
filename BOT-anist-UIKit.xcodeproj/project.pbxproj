@@ -79,7 +79,7 @@
 		4F6801DD2C46D8EF00EF97A9 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		4F6801DE2C46D8EF00EF97A9 /* main.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
 		4FA0A3A42C4A3DF900CE0700 /* CxxConvertibleToCollection+Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CxxConvertibleToCollection+Sequence.swift"; sourceTree = "<group>"; };
-		4FB35EAC2C46DA7500BFF649 /* RobotCustomizationPickerViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationPickerViewController.h; sourceTree = "<group>"; };
+		4FB35EAC2C46DA7500BFF649 /* RobotCustomizationPickerViewController.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RobotCustomizationPickerViewController.hpp; sourceTree = "<group>"; };
 		4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerViewController.mm; sourceTree = "<group>"; };
 		4FB35EF02C4787E700BFF649 /* RobotCustomizationSplitViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RobotCustomizationSplitViewController.h; sourceTree = "<group>"; };
 		4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationSplitViewController.mm; sourceTree = "<group>"; };
@@ -125,7 +125,7 @@
 		4F0ECBA32C4813500077673A /* CustomizationPicker */ = {
 			isa = PBXGroup;
 			children = (
-				4FB35EAC2C46DA7500BFF649 /* RobotCustomizationPickerViewController.h */,
+				4FB35EAC2C46DA7500BFF649 /* RobotCustomizationPickerViewController.hpp */,
 				4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm */,
 				4F0ECBA52C4813790077673A /* RobotCustomizationPickerViewModel.h */,
 				4F0ECBA62C4813790077673A /* RobotCustomizationPickerViewModel.mm */,
@@ -457,6 +457,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -471,6 +472,7 @@
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Debug;
 		};
@@ -490,6 +492,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -503,6 +506,7 @@
 				SWIFT_OBJC_BRIDGING_HEADER = "BOT-anist-UIKit/BOT-anist-UIKit-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
 				TARGETED_DEVICE_FAMILY = "1,2,7";
+				XROS_DEPLOYMENT_TARGET = 1.0;
 			};
 			name = Release;
 		};

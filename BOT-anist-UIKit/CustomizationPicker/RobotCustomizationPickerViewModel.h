@@ -9,23 +9,22 @@
 #import "RobotCustomizationPickerSectionModel.h"
 #import "RobotCustomizationPickerItemModel.h"
 #import "RobotData.hpp"
+#include "swiftToCxx.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
 typedef UICollectionViewDiffableDataSource<RobotCustomizationPickerSectionModel *, RobotCustomizationPickerItemModel *> RobotCustomizationPickerViewModelDataSource;
 
+NSNotificationName const RobotCustomizationPickerViewModelRobotDataDidChangeNotificationName = @"RobotCustomizationPickerViewModelRobotDataDidChangeNotificationName";
+NSString * const RobotCustomizationPickerViewModelRobotDataKey = @"robotData";
+
 __attribute__((objc_direct_members))
 @interface RobotCustomizationPickerViewModel : NSObject
-@property (assign, readonly, nonatomic) RobotData robotData; // KVO-compliant
 + (instancetype)new NS_UNAVAILABLE;
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithDataSource:(RobotCustomizationPickerViewModelDataSource *)dataSource;
-
-- (void)didChangeSelectedPart:(RobotData::Part)selectedPart;
-- (void)didChangeSelectedMaterial:(RobotData::Material)selectedMaterial;
-
-// to be hidden
-- (void)updateDataSourceWithSelectedPart:(RobotData::Part)part selectedMaterial:(RobotData::Material)material;
+- (void)updateDataSourceWithSelectedPart:(RobotData::Part)part;
+- (void)handleSelectedIndexPath:(NSIndexPath *)indexPath;
 @end
 
 NS_ASSUME_NONNULL_END

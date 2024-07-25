@@ -9,11 +9,12 @@
 
 @implementation RobotCustomizationPickerItemModel
 
-- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel selectedPart:(RobotData::Part)selectedPart {
+- (instancetype)initWithVariant:(RobotCustomizationPickerItemModelVariant)variant sectionModel:(RobotCustomizationPickerSectionModel *)sectionModel selectedPart:(RobotData::Part)selectedPart selected:(BOOL)selected {
     if (self = [super init]) {
         _variant = variant;
         _sectionModel = [sectionModel retain];
         _selectedPart = selectedPart;
+        self.selected = selected;
     }
     
     return self;
