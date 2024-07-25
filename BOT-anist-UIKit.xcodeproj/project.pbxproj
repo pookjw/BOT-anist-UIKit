@@ -65,6 +65,7 @@
 		4F15FA3D2C4EB79E0083DCA7 /* JointPinSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JointPinSystem.swift; sourceTree = "<group>"; };
 		4F1870612C50A62E00B3ACDB /* PlantAnimationProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlantAnimationProvider.swift; sourceTree = "<group>"; };
 		4F37EEF42C48175B00BEED2D /* BOT-anist-UIKit-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "BOT-anist-UIKit-Bridging-Header.h"; sourceTree = "<group>"; };
+		4F4D430C2C529C8700D1418B /* BOT-anist-UIKit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "BOT-anist-UIKit.entitlements"; sourceTree = "<group>"; };
 		4F61D03B2C4D4A7800840A45 /* RobotLoader+AnimationState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RobotLoader+AnimationState.swift"; sourceTree = "<group>"; };
 		4F6268B92C4942AA00F19F50 /* RobotPreview+ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RobotPreview+ContentView.swift"; sourceTree = "<group>"; };
 		4F6268BC2C49464400F19F50 /* RobotPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RobotPreview.swift; sourceTree = "<group>"; };
@@ -168,6 +169,7 @@
 		4F6801CB2C46D8EE00EF97A9 /* BOT-anist-UIKit */ = {
 			isa = PBXGroup;
 			children = (
+				4F4D430C2C529C8700D1418B /* BOT-anist-UIKit.entitlements */,
 				4F0659492C4C095D00251655 /* autumn_field_puresky_1k.png */,
 				4F6801CC2C46D8EE00EF97A9 /* AppDelegate.h */,
 				4F6801CD2C46D8EE00EF97A9 /* AppDelegate.m */,
@@ -448,6 +450,7 @@
 				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xros*]" = VisionOSAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "BOT-anist-UIKit/BOT-anist-UIKit.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P53D29U9LJ;
@@ -466,7 +469,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pookjw.BOT-anist-UIKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "BOT-anist-UIKit/BOT-anist-UIKit-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -483,6 +487,7 @@
 				"ASSETCATALOG_COMPILER_APPICON_NAME[sdk=xros*]" = VisionOSAppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CLANG_ENABLE_MODULES = YES;
+				CODE_SIGN_ENTITLEMENTS = "BOT-anist-UIKit/BOT-anist-UIKit.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = P53D29U9LJ;
@@ -501,7 +506,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.pookjw.BOT-anist-UIKit";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator xros xrsimulator";
-				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MACCATALYST = YES;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "BOT-anist-UIKit/BOT-anist-UIKit-Bridging-Header.h";
 				SWIFT_VERSION = 6.0;
