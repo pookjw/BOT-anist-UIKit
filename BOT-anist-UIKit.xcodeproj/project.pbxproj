@@ -138,6 +138,13 @@
 			path = CustomizationPicker;
 			sourceTree = "<group>";
 		};
+		4F12DEFB2C52AC4E005DAC2A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		4F6268BB2C49462400F19F50 /* RobotPreview */ = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +162,7 @@
 			children = (
 				4F6801CB2C46D8EE00EF97A9 /* BOT-anist-UIKit */,
 				4F6801CA2C46D8EE00EF97A9 /* Products */,
+				4F12DEFB2C52AC4E005DAC2A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};

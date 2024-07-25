@@ -53,8 +53,8 @@ extension Exploration {
         }
         
         func load(robotData: RobotData) async throws {
-#if !os(visionOS)
-//            environmentResource = try await makeEnvironmentResource()
+#if !os(visionOS) && !targetEnvironment(simulator)
+            environmentResource = try await makeEnvironmentResource()
 #endif
             
             try await PlantAnimationProvider.shared.load()
@@ -139,6 +139,19 @@ extension Exploration {
             if let robotCharacter,
                robotCharacter.animationState != .celebrate {
                 robotCharacter.playAnimation(.walkEnd)
+            }
+        }
+        
+        func handleKeyPress(_ press: KeyPress) {
+            switch press.phase {
+            case .down:
+                guard let robotCharacter else {
+                    return
+                }
+            case .up:
+                break
+            default:
+                break
             }
         }
     }
