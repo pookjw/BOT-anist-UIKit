@@ -9,8 +9,7 @@
 
 #if TARGET_OS_VISION
 
-#include "RobotData.hpp"
-#import "BOT_anist_UIKit-Swift.h"
+#import "ExplorationViewController.h"
 
 NSMutableDictionary<NSUUID *, NSData *> *_robotDataByIdentifiers = [NSMutableDictionary new];
 
@@ -36,10 +35,9 @@ NSMutableDictionary<NSUUID *, NSData *> *_robotDataByIdentifiers = [NSMutableDic
     
     [ExplorationSceneDelegate.robotDataByIdentifiers removeObjectForKey:robotDataIdentifier];
     
-    __kindof UIViewController *hostingController = BOT_anist_UIKit::makeExplorationHostingController(robotData);
-    
-    window.rootViewController = hostingController;
-    [hostingController release];
+    ExplorationViewController *rootViewController = [[ExplorationViewController alloc] initWithRobotData:robotData];
+    window.rootViewController = rootViewController;
+    [rootViewController release];
     
     self.window = window;
     [window makeKeyAndVisible];

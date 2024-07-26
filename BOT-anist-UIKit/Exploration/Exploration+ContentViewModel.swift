@@ -29,8 +29,7 @@ extension Exploration {
         @ObservationIgnored
         var speedScale: Float = 1.0
         
-        @ObservationIgnored
-        private var plantsFound = 0
+        private(set) var plantsFound = 0
         
         @ObservationIgnored
         private var isCelebrating = false

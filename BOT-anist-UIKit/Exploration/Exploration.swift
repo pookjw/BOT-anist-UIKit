@@ -11,9 +11,9 @@ import SwiftUI
 enum Exploration {}
 
 @_expose(Cxx, "makeExplorationHostingController")
-public func makeExplorationHostingController(robotData: RobotData) -> UIViewController {
+public func makeExplorationHostingController(robotData: RobotData, sessionUUID: NSUUID) -> UIViewController {
     MainActor.assumeIsolated {
-        let rootView = Exploration.ContentView(robotData: robotData)
+        let rootView = Exploration.ContentView(robotData: robotData, sessionUUID: sessionUUID as UUID)
         let hostingController = UIHostingController(rootView: rootView)
         return hostingController
     }

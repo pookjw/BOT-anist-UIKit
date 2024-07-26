@@ -13,12 +13,14 @@ import RealityKit
 extension Exploration {
     struct ContentView: View {
         private let robotData: RobotData
+        private let sessionUUID: UUID
         @State private var viewModel = ContentViewModel()
         @State private var subscriptions: [EventSubscription] = []
         @FocusState private var isFocused: Bool
         
-        init(robotData: RobotData) {
+        init(robotData: RobotData, sessionUUID: UUID) {
             self.robotData = robotData
+            self.sessionUUID = sessionUUID
         }
         
         var body: some View {
@@ -56,6 +58,18 @@ extension Exploration {
             .task {
                 try! await viewModel.load(robotData: robotData)
                 isFocused = true
+            }
+            .onChange(of: viewModel.plantsFound, initial: true) { _, newValue in
+                NotificationCenter
+                    .default
+                    .post(
+                        name: .ExplorationDidChangePlantsFoundNotificationName, 
+                        object: nil,
+                        userInfo: [
+                            ExplorationSessionKey: sessionUUID,
+                            ExplorationPlantsFoundKey: newValue
+                        ]
+                    )
             }
         }
     }
