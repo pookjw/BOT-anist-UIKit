@@ -15,6 +15,7 @@ extension Exploration {
         private let robotData: RobotData
         @State private var viewModel = ContentViewModel()
         @State private var subscriptions: [EventSubscription] = []
+        @FocusState private var isFocused: Bool
         
         init(robotData: RobotData) {
             self.robotData = robotData
@@ -47,19 +48,41 @@ extension Exploration {
                 }
             )
             .ignoresSafeArea()
+            .platformModifier(viewModel: viewModel)
             .focusable()
+            .focused($isFocused)
             .platformTouchControls(viewModel: viewModel)
             .installTouchControls(viewModel: viewModel)
             .task {
                 try! await viewModel.load(robotData: robotData)
+                isFocused = true
             }
         }
     }
 }
 
 extension View {
+    fileprivate func platformModifier(viewModel: Exploration.ContentViewModel) -> some View {
+        Group {
+#if os(visionOS)
+            GeometryReader3D { geometry in
+                self
+                    .scaleEffect(geometry.size.width / 900.0)
+                    .volumeBaseplateVisibility(.visible)
+                    .onChange(of: geometry.size.width) { _, newValue in
+                        viewModel.speedScale = Float(newValue / 900.0)
+                    }
+            }
+#else
+            self
+#endif
+        }
+    }
+}
+
+extension View {
     fileprivate func platformTouchControls(viewModel: Exploration.ContentViewModel) -> some View {
-        #if !os(visionOS)
+#if !os(visionOS)
         return simultaneousGesture(
             DragGesture()
                 .onChanged { value in
@@ -69,53 +92,39 @@ extension View {
                     viewModel.handleGestureEnded(value)
                 }
         )
-        #else
-        fatalError()
-        #endif
+#else
+        return Group {
+            if let characterParent = viewModel.robotCharacter?.characterParent {
+                self
+                    .simultaneousGesture(
+                        DragGesture()
+                            .targetedToEntity(characterParent)
+                            .onChanged { value in
+                                viewModel.handleGestureChanged(value)
+                            }
+                            .onEnded { value in
+                                viewModel.handleGestureEnded(value)
+                            }
+                    )
+            } else {
+                self
+            }
+        }
+#endif
     }
     
     fileprivate func installTouchControls(viewModel: Exploration.ContentViewModel) -> some View {
-        return onKeyPress(keys: boundKeys, phases: .down) { press in
+        return onKeyPress(keys: viewModel.boundKeys, phases: .down) { press in
             viewModel.handleKeyPress(press)
             return .handled
         }
-        .onKeyPress(keys: boundKeys, phases: .up) { press in
+        .onKeyPress(keys: viewModel.boundKeys, phases: .up) { press in
             viewModel.handleKeyPress(press)
             return .handled
         }
-        .onKeyPress(keys: boundKeys, phases: .repeat) { press in
+        .onKeyPress(keys: viewModel.boundKeys, phases: .repeat) { press in
             viewModel.handleKeyPress(press)
             return .handled
         }
     }
 }
-
-fileprivate let keyBindings: [KeyEquivalent: SIMD3<Float>] = [
-    // Standard Left-hand WASD
-    KeyEquivalent("w"): SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
-    KeyEquivalent("a"): SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
-    KeyEquivalent("s"): SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
-    KeyEquivalent("d"): SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
-    
-    // Right-Hand IJKL
-    KeyEquivalent("i"): SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
-    KeyEquivalent("j"): SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
-    KeyEquivalent("k"): SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
-    KeyEquivalent("l"): SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
-    
-    // Arrows
-    KeyEquivalent.upArrow: SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
-    KeyEquivalent.leftArrow: SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
-    KeyEquivalent.downArrow: SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
-    KeyEquivalent.rightArrow: SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
-    
-    // Numpad
-    KeyEquivalent("8"): SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
-    KeyEquivalent("4"): SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
-    KeyEquivalent("2"): SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
-    KeyEquivalent("6"): SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
-]
-
-fileprivate let boundKeys: Set<KeyEquivalent> = {
-    return Set(keyBindings.keys)
-}()

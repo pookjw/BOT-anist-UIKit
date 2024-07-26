@@ -221,17 +221,11 @@ __attribute__((objc_direct_members))
 }
 
 - (void)postRobotDataDidChangeNotification __attribute__((objc_direct)) {
-    // https://x.com/_silgen_name/status/1816481593869103433
-    RobotData *copyPtr = new RobotData(self.robotData);
-    NSData *data = [[NSData alloc] initWithBytesNoCopy:copyPtr length:sizeof(RobotData) deallocator:^(void * _Nonnull bytes, NSUInteger length) {
-        delete reinterpret_cast<RobotData *>(bytes);
-    }];
+    NSData *data = self.robotData.getNSData();
     
     [NSNotificationCenter.defaultCenter postNotificationName:RobotCustomizationPickerViewModelRobotDataDidChangeNotificationName
                                                       object:self
                                                     userInfo:@{RobotCustomizationPickerViewModelRobotDataKey: data}];
-    
-    [data release];
 }
 
 @end

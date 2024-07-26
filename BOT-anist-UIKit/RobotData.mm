@@ -36,6 +36,12 @@ RobotData::RobotData() {
     };
 }
 
+const RobotData RobotData::getRobotDataFromNSData(NSData *data) {
+    // https://x.com/_silgen_name/status/1816481593869103433
+    const RobotData robotData = *reinterpret_cast<const RobotData *>(data.bytes);
+    return robotData;
+}
+
 bool RobotData::operator==(const RobotData &other) const {
     return this->face == other.face &&
     this->selectedIndicesByPart == other.selectedIndicesByPart &&
@@ -46,6 +52,17 @@ bool RobotData::operator==(const RobotData &other) const {
 
 bool RobotData::operator!=(const RobotData &other) const {
     return !(*this == other);
+}
+
+NSData * RobotData::getNSData() const {
+    // https://x.com/_silgen_name/status/1816481593869103433
+    RobotData *copyPtr = new RobotData(*this);
+    
+    NSData *data = [[NSData alloc] initWithBytesNoCopy:copyPtr length:sizeof(RobotData) deallocator:^(void * _Nonnull bytes, NSUInteger length) {
+        delete reinterpret_cast<RobotData *>(bytes);
+    }];
+    
+    return [data autorelease];
 }
 
 void RobotData::setFace(Face face) {

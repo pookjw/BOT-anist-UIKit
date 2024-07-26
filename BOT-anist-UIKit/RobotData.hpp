@@ -163,10 +163,14 @@ public:
     
     //
     
+    static const RobotData getRobotDataFromNSData(NSData *data);
+    
     RobotData();
     
     bool operator==(const RobotData &other) const;
     bool operator!=(const RobotData &other) const;
+    
+    NSData *getNSData() const;
     
     void setFace(Face face);
     Face getFace() const;

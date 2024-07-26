@@ -207,7 +207,7 @@ __attribute__((objc_direct_members))
     NSData *data = notification.userInfo[RobotCustomizationPickerViewModelRobotDataKey];
     assert(data.length == sizeof(RobotData));
     
-    const RobotData robotData = *reinterpret_cast<const RobotData *>(data.bytes);
+    const RobotData robotData = RobotData::getRobotDataFromNSData(data);
     
     dispatch_async(dispatch_get_main_queue(), ^{
         [self.delegate robotCustomizationPickerViewController:self didChangeRobotData:robotData];

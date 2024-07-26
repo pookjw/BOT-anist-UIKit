@@ -7,10 +7,10 @@
 
 import Observation
 import CoreGraphics
-import RealityFoundation
 import UniformTypeIdentifiers
 import Spatial
 import BOTanistAssets
+import RealityKit
 import SwiftUI
 
 extension Exploration {
@@ -27,7 +27,7 @@ extension Exploration {
         private var movementVector = SIMD3<Float>.zero
         
         @ObservationIgnored
-        private var speedScale: Float = 1.0
+        var speedScale: Float = 1.0
         
         @ObservationIgnored
         private var plantsFound = 0
@@ -39,8 +39,39 @@ extension Exploration {
         private(set) var environmentResource: EnvironmentResource?
 #endif
         
+//        @ObservationIgnored
+        private(set) var robotCharacter: RobotCharacter?
+        
         @ObservationIgnored
-        private var robotCharacter: RobotCharacter?
+        var boundKeys: Set<KeyEquivalent> {
+            return Set(keyBindings.keys)
+        }
+        
+        private let keyBindings: [KeyEquivalent: SIMD3<Float>] = [
+            // Standard Left-hand WASD
+            KeyEquivalent("w"): SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
+            KeyEquivalent("a"): SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
+            KeyEquivalent("s"): SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
+            KeyEquivalent("d"): SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
+            
+            // Right-Hand IJKL
+            KeyEquivalent("i"): SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
+            KeyEquivalent("j"): SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
+            KeyEquivalent("k"): SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
+            KeyEquivalent("l"): SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
+            
+            // Arrows
+            KeyEquivalent.upArrow: SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
+            KeyEquivalent.leftArrow: SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
+            KeyEquivalent.downArrow: SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
+            KeyEquivalent.rightArrow: SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
+            
+            // Numpad
+            KeyEquivalent("8"): SIMD3<Float>(x: 0.0, y: 0.0, z: -100.0),
+            KeyEquivalent("4"): SIMD3<Float>(x: -100.0, y: 0.0, z: 0.0),
+            KeyEquivalent("2"): SIMD3<Float>(x: 0.0, y: 0.0, z: 100.0),
+            KeyEquivalent("6"): SIMD3<Float>(x: 100.0, y: 0.0, z: 0.0),
+        ]
         
         init() {
             let explorationCamera = PerspectiveCamera()
@@ -120,6 +151,29 @@ extension Exploration {
             }
         }
         
+#if os(visionOS)
+        func handleGestureChanged(_ value: EntityTargetValue<DragGesture.Value>) {
+            guard let robotCharacter else { return }
+            
+            let translation = value.translation3D
+            let movementVector = SIMD3<Float>(x: Float(translation.x), y: 0.0, z: Float(translation.z))
+            
+            self.movementVector = movementVector
+            
+            if robotCharacter.bodyEntity.components[RobotLoader.AnimationStateComponent.self]!.animationState == .idle {
+                robotCharacter.playAnimation(.walkLoop)
+            }
+        }
+        
+        func handleGestureEnded(_ value: EntityTargetValue<DragGesture.Value>) {
+            movementVector = .zero
+            
+            if let robotCharacter,
+               robotCharacter.animationState != .celebrate {
+                robotCharacter.playAnimation(.walkEnd)
+            }
+        }
+#else
         func handleGestureChanged(_ value: DragGesture.Value) {
             guard let robotCharacter else { return }
             
@@ -141,6 +195,7 @@ extension Exploration {
                 robotCharacter.playAnimation(.walkEnd)
             }
         }
+#endif
         
         func handleKeyPress(_ press: KeyPress) {
             switch press.phase {
@@ -148,8 +203,28 @@ extension Exploration {
                 guard let robotCharacter else {
                     return
                 }
+                
+                robotCharacter.playAnimation(.walkLoop)
+                
+                if let vector = keyBindings[press.key] {
+                    movementVector += vector
+                }
             case .up:
-                break
+                guard let robotCharacter else {
+                    return
+                }
+                
+                if let vector = keyBindings[press.key] {
+                    movementVector -= vector
+                }
+                
+                Task {
+                    try? await Task.sleep(for: .seconds(0.1))
+                    
+                    if movementVector == .zero {
+                        robotCharacter.playAnimation(.walkEnd)
+                    }
+                }
             default:
                 break
             }

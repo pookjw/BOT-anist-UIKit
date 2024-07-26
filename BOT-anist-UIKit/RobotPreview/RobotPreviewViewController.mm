@@ -9,7 +9,11 @@
 #include "RobotData.hpp"
 #import "BOT_anist_UIKit-Swift.h"
 #import "ExplorationViewController.h"
+#import "MRUISize3D.h"
+#import "ExplorationSceneDelegate.h"
+#import <objc/message.h>
 #import <objc/runtime.h>
+#import <TargetConditionals.h>
 
 UIKIT_EXTERN NSNotificationName const UIPresentationControllerDismissalTransitionDidEndNotification;
 
@@ -18,6 +22,7 @@ __attribute__((objc_direct_members))
 @property (class, assign, readonly, nonatomic) void *isOwnNavigationControllerKey;
 @property (retain, nonatomic) __kindof UIViewController *hostingController;
 @property (retain, readonly, nonatomic) UIBarButtonItem *explorationBarButtonItem;
+@property (assign, nonatomic) RobotData robotData;
 @end
 
 @implementation RobotPreviewViewController
@@ -28,14 +33,12 @@ __attribute__((objc_direct_members))
     return isOwnNavigationControllerKey;
 }
 
-- (BOOL)respondsToSelector:(SEL)aSelector {
-    BOOL responds = [super respondsToSelector:aSelector];
-    
-    if (!responds) {
-        NSLog(@"%s", sel_getName(aSelector));
+- (instancetype)initWithRobotData:(RobotData)robotData {
+    if (self = [super initWithNibName:nil bundle:nil]) {
+        _robotData = robotData;
     }
     
-    return responds;
+    return self;
 }
 
 - (void)dealloc {
@@ -51,28 +54,37 @@ __attribute__((objc_direct_members))
     navigationItem.rightBarButtonItem = self.explorationBarButtonItem;
     
     [self attachHostingController];
+    
+#if !TARGET_OS_VISION
     [NSNotificationCenter.defaultCenter addObserver:self
-                                           selector:@selector(foo:)
+                                           selector:@selector(receivedDismissalTransitionDidEndNotification:)
                                                name:UIPresentationControllerDismissalTransitionDidEndNotification
                                              object:nil];
+#endif
 }
 
 - (void)updateRobotData:(RobotData)robotData {
-    BOT_anist_UIKit::updateRobotPreviewHostingController(self.hostingController, robotData);
+    self.robotData = robotData;
+    
+    if (_hostingController != nil) {
+        BOT_anist_UIKit::updateRobotPreviewHostingController(self.hostingController, robotData);
+    }
 }
 
-- (void)foo:(NSNotification *)notification {
+#if !TARGET_OS_VISION
+- (void)receivedDismissalTransitionDidEndNotification:(NSNotification *)notification {
     __kindof UIViewController *viewController = notification.object;
     
     if (objc_getAssociatedObject(viewController, RobotPreviewViewController.isOwnNavigationControllerKey) == nil) return;
     
     [self attachHostingController];
 }
+#endif
 
 - (__kindof UIViewController *)attachHostingController __attribute__((objc_direct)) {
     if (auto hostingController = self.hostingController) return hostingController;
     
-    __kindof UIViewController *hostingController = BOT_anist_UIKit::makeRobotPreviewHostingController({});
+    __kindof UIViewController *hostingController = BOT_anist_UIKit::makeRobotPreviewHostingController(self.robotData);
     UIView *view = self.view;
     
     [self addChildViewController:hostingController];
@@ -86,6 +98,7 @@ __attribute__((objc_direct_members))
     return [hostingController autorelease];
 }
 
+#if !TARGET_OS_VISION
 - (void)datachHostingController __attribute__((objc_direct)) {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     
@@ -104,6 +117,7 @@ __attribute__((objc_direct_members))
     
     [pool release];
 }
+#endif
 
 - (UIBarButtonItem *)explorationBarButtonItem {
     if (auto explorationBarButtonItem = _explorationBarButtonItem) return explorationBarButtonItem;
@@ -115,9 +129,10 @@ __attribute__((objc_direct_members))
 }
 
 - (void)didTriggerExplorationBarButtonItem:(UIBarButtonItem *)sender {
+#if !TARGET_OS_VISION
     [self datachHostingController];
     
-    ExplorationViewController *explorationViewController = [[ExplorationViewController alloc] initWithRobotData:{}];
+    ExplorationViewController *explorationViewController = [[ExplorationViewController alloc] initWithRobotData:self.robotData];
     
     UINavigationController *navigationController = [[UINavigationController alloc] initWithRootViewController:explorationViewController];
     [explorationViewController release];
@@ -128,6 +143,48 @@ __attribute__((objc_direct_members))
     navigationController.presentationController.delegate = self;
     [self presentViewController:navigationController animated:YES completion:nil];
     [navigationController release];
+#else
+    UISceneSessionActivationRequest *request = [UISceneSessionActivationRequest requestWithRole:UIWindowSceneSessionRoleVolumetricApplication];
+    
+    NSUUID *robotDataIdentifier = [NSUUID UUID];
+    ExplorationSceneDelegate.robotDataByIdentifiers[robotDataIdentifier] = self.robotData.getNSData();
+    
+    NSUserActivity *userActivity = [[NSUserActivity alloc] initWithActivityType:@"Exploration"];
+    
+    userActivity.userInfo = @{@"robotDataIdentifier": robotDataIdentifier};
+    
+    request.userActivity = userActivity;
+    [userActivity release];
+    
+    __kindof UIWindowSceneActivationRequestOptions *options = [objc_lookUpClass("_UIVolumetricWindowSceneActivationRequestOptions") new];
+    
+    reinterpret_cast<void (*)(id, SEL, BOOL)>(objc_msgSend)(options, sel_registerName("_setInternal:"), YES);
+    
+    //
+    
+    // 1 : automatic, 2 : dynamic
+    reinterpret_cast<void (*)(id, SEL, NSInteger)>(objc_msgSend)(options, sel_registerName("_setPreferredDisplayZoomBehavior:"), 2);
+    reinterpret_cast<void (*)(id, SEL, BOOL)>(objc_msgSend)(options, sel_registerName("_setInternal:"), YES);
+    
+    // MRUILaunchPlacementParameters
+    id mrui_placementParameters = reinterpret_cast<id (*)(id, SEL)>(objc_msgSend)(options, sel_registerName("mrui_placementParameters"));
+    // 0 : automatic, 1 : dynamic
+    reinterpret_cast<void (*)(id, SEL, NSUInteger)>(objc_msgSend)(mrui_placementParameters, sel_registerName("setPreferredScalingBehavior:"), 1);
+    
+    //
+    
+    NSValue *preferredLaunchSize3D = reinterpret_cast<id (*)(Class, SEL, MRUISize3D)>(objc_msgSend)(NSValue.class, sel_registerName("valueWithMRUISize3D:"), MRUISize3DMake(900., 500., 900.));
+    reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(mrui_placementParameters, sel_registerName("setPreferredLaunchSize3D:"), preferredLaunchSize3D);
+    
+    //
+    
+    request.options = options;
+    [options release];
+    
+    [UIApplication.sharedApplication activateSceneSessionForRequest:request errorHandler:^(NSError * _Nonnull error) {
+        NSLog(@"%@", error);
+    }];
+#endif
 }
 
 @end

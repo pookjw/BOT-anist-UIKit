@@ -8,13 +8,16 @@
 #import "RobotCustomizationSplitViewController.h"
 #import "RobotCustomizationPickerViewController.hpp"
 #import "RobotPreviewViewController.h"
+#import "RobotData.hpp"
 #import <objc/message.h>
 #import <objc/runtime.h>
+#import <TargetConditionals.h>
 
 __attribute__((objc_direct_members))
 @interface RobotCustomizationSplitViewController () <UISplitViewControllerDelegate, RobotCustomizationPickerViewControllerDelegate>
 @property (retain, nonatomic, readonly) RobotCustomizationPickerViewController *pickerViewController;
 @property (retain, nonatomic, readonly) RobotPreviewViewController *previewViewController;
+@property (assign, nonatomic) RobotData robotData;
 @end
 
 @implementation RobotCustomizationSplitViewController
@@ -44,9 +47,15 @@ __attribute__((objc_direct_members))
 }
 
 - (void)_ba_commonInit __attribute__((objc_direct)) {
+    _robotData = {};
+    
     self.delegate = self;
+    
+#if !TARGET_OS_VISION
     self.displayModeButtonVisibility = UISplitViewControllerDisplayModeButtonVisibilityNever;
     self.presentsWithGesture = NO;
+#endif
+    
     self.maximumPrimaryColumnWidth = CGFLOAT_MAX;
     self.preferredDisplayMode = UISplitViewControllerDisplayModeOneBesideSecondary;
     self.preferredPrimaryColumnWidthFraction = 0.5;
@@ -75,6 +84,7 @@ __attribute__((objc_direct_members))
 }
 
 - (void)robotCustomizationPickerViewController:(RobotCustomizationPickerViewController *)viewController didChangeRobotData:(RobotData)robotData {
+    self.robotData = robotData;
     [self.previewViewController updateRobotData:robotData];
 }
 
