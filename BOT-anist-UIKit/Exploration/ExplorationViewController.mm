@@ -8,11 +8,18 @@
 #import "ExplorationViewController.h"
 #import "ExplorationBoardViewController.h"
 #import "BOT_anist_UIKit-Swift.h"
+#import "MRUISize3D.h"
+#import <TargetConditionals.h>
+#import <objc/message.h>
+#import <objc/runtime.h>
 
 __attribute__((objc_direct_members))
 @interface ExplorationViewController ()
 @property (retain, readonly, nonatomic) __kindof UIViewController *hostingController;
 @property (retain, readonly, nonatomic) ExplorationBoardViewController *boardViewController;
+#if TARGET_OS_VISION
+@property (retain, readonly, nonatomic) id boardPlatterOrnament; // MRUIPlatterOrnament
+#endif
 @property (retain, readonly, nonatomic) UIBarButtonItem *dismissBarButtonItem;
 @property (assign, readonly, nonatomic) RobotData robotData;
 @property (retain, readonly, nonatomic) NSUUID *sessionUUID;
@@ -21,6 +28,9 @@ __attribute__((objc_direct_members))
 @implementation ExplorationViewController
 @synthesize hostingController = _hostingController;
 @synthesize boardViewController = _boardViewController;
+#if TARGET_OS_VISION
+@synthesize boardPlatterOrnament = _boardPlatterOrnament;
+#endif
 @synthesize dismissBarButtonItem = _dismissBarButtonItem;
 @synthesize sessionUUID = _sessionUUID;
 
@@ -36,6 +46,9 @@ __attribute__((objc_direct_members))
 - (void)dealloc {
     [_hostingController release];
     [_boardViewController release];
+#if TARGET_OS_VISION
+    [_boardPlatterOrnament release];
+#endif
     [_dismissBarButtonItem release];
     [_sessionUUID release];
     [super dealloc];
@@ -58,6 +71,7 @@ __attribute__((objc_direct_members))
     
     //
     
+#if !TARGET_OS_VISION
     ExplorationBoardViewController *boardViewController = self.boardViewController;
     [self addChildViewController:boardViewController];
     __kindof UIView *boardView = boardViewController.view;
@@ -68,6 +82,13 @@ __attribute__((objc_direct_members))
         [boardView.trailingAnchor constraintEqualToAnchor:view.layoutMarginsGuide.trailingAnchor]
     ]];
     [boardViewController didMoveToParentViewController:self];
+#else
+    id mrui_ornamentsItem = reinterpret_cast<id (*) (id, SEL)>(objc_msgSend) (self, sel_registerName("mrui_ornamentsItem"));
+    
+    reinterpret_cast<void (*) (id, SEL, id)>(objc_msgSend)(mrui_ornamentsItem, NSSelectorFromString(@"setOrnaments:"), @[
+        self.boardPlatterOrnament
+    ]);
+#endif
     
     //
     
@@ -93,6 +114,28 @@ __attribute__((objc_direct_members))
     _boardViewController = [boardViewController retain];
     return [boardViewController autorelease];
 }
+
+#if TARGET_OS_VISION
+- (id)boardPlatterOrnament {
+    if (id boardPlatterOrnament = _boardPlatterOrnament) return boardPlatterOrnament;
+    
+    id boardPlatterOrnament = reinterpret_cast<id (*)(id, SEL, id)>(objc_msgSend)([objc_lookUpClass("MRUIPlatterOrnament") alloc], sel_registerName("initWithViewController:"), self.boardViewController);
+    
+//    reinterpret_cast<void (*)(id, SEL, BOOL)>(objc_msgSend)(boardPlatterOrnament, sel_registerName("setCanFollowUser:"), YES);
+    
+    reinterpret_cast<void (*)(id, SEL, CGSize)>(objc_msgSend)(boardPlatterOrnament, sel_registerName("setPreferredContentSize:"), self.boardViewController.view.intrinsicContentSize);
+    
+    CGFloat anchorPoint[4] = {0.5, 0.0, 0.0, 0.0};
+    
+    id position = reinterpret_cast<id (*)(id, SEL, double[4])>(objc_msgSend)([objc_lookUpClass("MRUIPlatterOrnamentRelativePosition") alloc], sel_registerName("initWithAnchorPoint:"), anchorPoint);
+    
+    reinterpret_cast<void (*)(id, SEL, id)>(objc_msgSend)(boardPlatterOrnament, sel_registerName("setPosition:"), position);
+    [position release];
+    
+    _boardPlatterOrnament = [boardPlatterOrnament retain];
+    return [boardPlatterOrnament autorelease];
+}
+#endif
 
 - (UIBarButtonItem *)dismissBarButtonItem {
     if (auto dismissBarButtonItem = _dismissBarButtonItem) return dismissBarButtonItem;

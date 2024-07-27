@@ -21,6 +21,9 @@ extension Exploration {
         let explorationCamera: PerspectiveCamera
         
         @ObservationIgnored
+        var sessionUUID: UUID?
+        
+        @ObservationIgnored
         private(set) var currentGrowAnimations: [PlantComponent.PlantTypeKey: AnimationPlaybackController] = [:]
         
         @ObservationIgnored
@@ -29,7 +32,30 @@ extension Exploration {
         @ObservationIgnored
         var speedScale: Float = 1.0
         
-        private(set) var plantsFound = 0
+#if os(visionOS)
+        @ObservationIgnored
+        var changedViewpoint: SquareAzimuth?
+#endif
+        
+        @ObservationIgnored
+        private(set) var plantsFound = 0 {
+            didSet {
+                guard let sessionUUID else {
+                    return
+                }
+                
+                NotificationCenter
+                    .default
+                    .post(
+                        name: .ExplorationDidChangePlantsFoundNotificationName, 
+                        object: nil,
+                        userInfo: [
+                            ExplorationSessionKey: sessionUUID,
+                            ExplorationPlantsFoundKey: plantsFound
+                        ]
+                    )
+            }
+        }
         
         @ObservationIgnored
         private var isCelebrating = false
@@ -38,7 +64,6 @@ extension Exploration {
         private(set) var environmentResource: EnvironmentResource?
 #endif
         
-//        @ObservationIgnored
         private(set) var robotCharacter: RobotCharacter?
         
         @ObservationIgnored
@@ -109,6 +134,33 @@ extension Exploration {
             explorationRoot.addChild(robotCharacter.characterParent)
             
             self.robotCharacter = robotCharacter
+        }
+        
+        func reset() {
+            plantsFound = 0
+            isCelebrating = false
+            
+            if let robotCharacter {
+                robotCharacter.playAnimation(.idle)
+                robotCharacter.characterParent.teleportCharacter(to: [0.0, 0.065, 0.0], relativeTo: explorationRoot)
+            }
+            
+            explorationRoot.forEachDescendant(withComponent: PlantComponent.self) { entity, component in
+                var plantComponent = component
+                plantComponent.interactedWith = false
+                entity.components.set(plantComponent)
+                entity.stopAllAnimations(recursive: true)
+                
+                return true
+            }
+            
+            explorationRoot.forEachDescendant(withComponent: BlendShapeWeightsComponent.self) { entity, component in
+                Task { @MainActor in
+                    entity.components[BlendShapeWeightsComponent.self]!.weightSet[0].weights = BlendShapeWeights([0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+                }
+                
+                return true
+            }
         }
         
         func handleUpdateEvent(_ event: SceneEvents.Update) {
@@ -335,8 +387,31 @@ extension Exploration.ContentViewModel {
         
         robotCharacter.idleTimer += deltaTime
         
-        let idleTimeout: Float = 2.0
-        
-        // TODO
+#if os(visionOS)
+        if let changedViewpoint,
+           robotCharacter.animationState != .wave,
+           robotCharacter.characterParent.scene != nil {
+            let rotateAnimation = try! robotCharacter.characterModel.rotattionAnimation(
+                toFace: changedViewpoint,
+                duration: 0.5
+            )
+            
+            self.changedViewpoint = nil
+            robotCharacter.playAnimation(.wave)
+            
+            Task { @MainActor in
+                try? await Task.sleep(for: .seconds(0.25))
+                robotCharacter.characterModel.playAnimation(rotateAnimation)
+                try? await Task.sleep(for: .seconds(0.25))
+                
+                // 필요한가?
+                let angle = changedViewpoint.orientation.angle.radians
+                let finalOrientation = simd_quatf(angle: Float(angle), axis: SIMD3<Float>(x: 0.0, y: 1.0, z: 0.0))
+                robotCharacter.characterModel.orientation = finalOrientation
+                
+                robotCharacter.idleTimer = 0.0
+            }
+        }
+#endif
     }
 }

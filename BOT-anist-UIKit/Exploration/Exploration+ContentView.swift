@@ -8,8 +8,6 @@
 import SwiftUI
 import RealityKit
 
-// TODO: ARView로 해보기
-
 extension Exploration {
     struct ContentView: View {
         private let robotData: RobotData
@@ -40,6 +38,9 @@ extension Exploration {
                     content.add(viewModel.explorationCamera)
                 },
                 update: { content in
+                    // Reset the idle timer when the robot moves.
+                    viewModel.robotCharacter?.idleTimer = 0
+                    
 #if !os(visionOS)
                     if let environmentResource = viewModel.environmentResource {
                         content.environment = .skybox(environmentResource)
@@ -59,18 +60,19 @@ extension Exploration {
                 try! await viewModel.load(robotData: robotData)
                 isFocused = true
             }
-            .onChange(of: viewModel.plantsFound, initial: true) { _, newValue in
-                NotificationCenter
-                    .default
-                    .post(
-                        name: .ExplorationDidChangePlantsFoundNotificationName, 
-                        object: nil,
-                        userInfo: [
-                            ExplorationSessionKey: sessionUUID,
-                            ExplorationPlantsFoundKey: newValue
-                        ]
-                    )
+            .task {
+                for await _ in NotificationCenter.default.notifications(named: .ExplorationRequestedResetNotificiationName, object: nil) {
+                    viewModel.reset()
+                }
             }
+            .onChange(of: sessionUUID, initial: true) { _, newValue in
+                viewModel.sessionUUID = newValue
+            }
+#if os(visionOS)
+            .onVolumeViewpointChange { _, newViewpoint in
+                viewModel.changedViewpoint = newViewpoint.squareAzimuth
+            }
+#endif
         }
     }
 }

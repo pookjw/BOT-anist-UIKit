@@ -35,26 +35,13 @@ __attribute__((objc_direct_members))
     self.view = self.boardView;
 }
 
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    [NSNotificationCenter.defaultCenter addObserver:self
-                                           selector:@selector(didReceiveDidChangePlantsFoundNotification:)
-                                               name:ExplorationDidChangePlantsFoundNotificationName
-                                             object:nil];
-}
-
 - (_ExplorationBoardView *)boardView {
     if (auto boardView = _boardView) return boardView;
     
-    _ExplorationBoardView *boardView = [_ExplorationBoardView new];
+    _ExplorationBoardView *boardView = [[_ExplorationBoardView alloc] initWithSessionUUID:self.sessionUUID];
     
     _boardView = [boardView retain];
     return [boardView autorelease];
-}
-
-- (void)didReceiveDidChangePlantsFoundNotification:(NSNotification *)notification {
-    
 }
 
 @end

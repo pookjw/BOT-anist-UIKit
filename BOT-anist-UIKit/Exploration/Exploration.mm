@@ -12,3 +12,5 @@ NSNotificationName const ExplorationDidChangePlantsFoundNotificationName = @"Exp
 NSString * const ExplorationSessionKey = @"session";
 
 NSString * const ExplorationPlantsFoundKey = @"plantsFound";
+
+NSNotificationName const ExplorationRequestedResetNotificiationName = @"ExplorationRequestedResetNotificiationName";

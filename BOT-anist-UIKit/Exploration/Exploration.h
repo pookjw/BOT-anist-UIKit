@@ -13,4 +13,6 @@ extern NSNotificationName const ExplorationDidChangePlantsFoundNotificationName;
 extern NSString * const ExplorationSessionKey;
 extern NSString * const ExplorationPlantsFoundKey;
 
+extern NSNotificationName const ExplorationRequestedResetNotificiationName;
+
 NS_ASSUME_NONNULL_END

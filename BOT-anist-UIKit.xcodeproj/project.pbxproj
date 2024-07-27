@@ -36,6 +36,7 @@
 		4F79023A2C53D17F00A3E913 /* ExplorationBoardViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F7902392C53D17F00A3E913 /* ExplorationBoardViewController.mm */; };
 		4F79023D2C53D2B200A3E913 /* _ExplorationBoardView.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F79023C2C53D2B200A3E913 /* _ExplorationBoardView.mm */; };
 		4F7902422C53DA6100A3E913 /* Exploration.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4F7902412C53DA6100A3E913 /* Exploration.mm */; };
+		4F7902A82C54CB1800A3E913 /* Entity+rotationAnimation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F7902A72C54CB1800A3E913 /* Entity+rotationAnimation.swift */; };
 		4FA0A3A52C4A3DF900CE0700 /* CxxConvertibleToCollection+Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4FA0A3A42C4A3DF900CE0700 /* CxxConvertibleToCollection+Sequence.swift */; };
 		4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm */; };
 		4FB35EF22C4787E700BFF649 /* RobotCustomizationSplitViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 4FB35EF12C4787E700BFF649 /* RobotCustomizationSplitViewController.mm */; };
@@ -92,6 +93,7 @@
 		4F79023C2C53D2B200A3E913 /* _ExplorationBoardView.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = _ExplorationBoardView.mm; sourceTree = "<group>"; };
 		4F7902402C53DA6100A3E913 /* Exploration.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Exploration.h; sourceTree = "<group>"; };
 		4F7902412C53DA6100A3E913 /* Exploration.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = Exploration.mm; sourceTree = "<group>"; };
+		4F7902A72C54CB1800A3E913 /* Entity+rotationAnimation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Entity+rotationAnimation.swift"; sourceTree = "<group>"; };
 		4FA0A3A42C4A3DF900CE0700 /* CxxConvertibleToCollection+Sequence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CxxConvertibleToCollection+Sequence.swift"; sourceTree = "<group>"; };
 		4FB35EAC2C46DA7500BFF649 /* RobotCustomizationPickerViewController.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = RobotCustomizationPickerViewController.hpp; sourceTree = "<group>"; };
 		4FB35EAD2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = RobotCustomizationPickerViewController.mm; sourceTree = "<group>"; };
@@ -227,6 +229,7 @@
 				4FD6F6562C4B91B600FA4CC4 /* RobotData_MaterialColor+Index.swift */,
 				4FD6F6582C4B9BCC00FA4CC4 /* RobotData_LightColor+Index.swift */,
 				4F1870612C50A62E00B3ACDB /* PlantAnimationProvider.swift */,
+				4F7902A72C54CB1800A3E913 /* Entity+rotationAnimation.swift */,
 				4F6268BB2C49462400F19F50 /* RobotPreview */,
 				4F06593E2C4C03D600251655 /* Exploration */,
 			);
@@ -340,6 +343,7 @@
 				4F0659142C49725B00251655 /* RobotLoader.swift in Sources */,
 				4FB35EAE2C46DA7500BFF649 /* RobotCustomizationPickerViewController.mm in Sources */,
 				4F06594E2C4CD1C200251655 /* Exploration+RobotCharacter.swift in Sources */,
+				4F7902A82C54CB1800A3E913 /* Entity+rotationAnimation.swift in Sources */,
 				4F6268BA2C4942AA00F19F50 /* RobotPreview+ContentView.swift in Sources */,
 				4F79023D2C53D2B200A3E913 /* _ExplorationBoardView.mm in Sources */,
 			);
